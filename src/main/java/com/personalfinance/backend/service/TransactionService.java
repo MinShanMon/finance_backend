@@ -6,6 +6,7 @@ import com.personalfinance.backend.model.Transaction;
 
 public interface TransactionService {
 
-    public List<Transaction> getAllTransactionsByUserId(long userid);
+    public List<Transaction> getAllTransactionsByUserId(long userId);
+    public List<Transaction> getAllTransactionsByUserIdAndMonth(long userId, Integer month);
     public Transaction addTransaction(Transaction transaction);
 }

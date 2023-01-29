@@ -1,7 +1,6 @@
 package com.personalfinance.backend.service;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,5 +22,12 @@ public class TransactionServiceImpl implements TransactionService {
     public Transaction addTransaction(Transaction transaction) {
         return transactionRepo.save(transaction);
     }
+
+    @Override
+    public List<Transaction> getAllTransactionsByUserIdAndMonth(long userId, Integer month) {
+        return transactionRepo.findAllTransactionsByUserId(userId);
+    }
+
+
     
 }

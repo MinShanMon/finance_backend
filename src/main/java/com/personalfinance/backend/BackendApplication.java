@@ -30,7 +30,7 @@ public class BackendApplication {
 
 			Transaction f1 = new Transaction("Breakfast", "Cafe",LocalDate.now(), "Food", 10.00);
 			Transaction f2 = new Transaction("Lunch", "Hawker", LocalDate.now(), "Food", 15.00);
-			Transaction f3 = new Transaction("Dinner", "Restaurant", LocalDate.now(), "Food", 20.00);
+			Transaction f3 = new Transaction("Dinner", "Restaurant", LocalDate.of(2023, 2, 23), "Food", 20.00);
 
 			Transaction t1 = new Transaction("Bus/MRT", "", LocalDate.now(), "Transport", 6.00);
 			Transaction t2 = new Transaction("Grab", "", LocalDate.now(), "Transport", 25.20);
@@ -43,6 +43,11 @@ public class BackendApplication {
 			transactionRepo.saveAllAndFlush(transactions);
 
 			testUser.setTransactions(transactions);
+
+			List<Transaction> testList = transactionRepo.findAllTransactionsByUserId(1);
+			List<Transaction> testListMonth = transactionRepo.findAllTransactionsByUserIdAndMonth(1, 1);
+			System.out.println(testList.size());
+			System.out.println(testListMonth.size());
 
 
 		};
