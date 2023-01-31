@@ -55,6 +55,9 @@ public class RegisteredUsers {
 
 	@Column(name = "otp_requested_time")
 	private Date otpReqTime;
+
+    @Column(name = "JwtToken")
+    private String jwtToken;
     
     
     @ManyToMany(targetEntity = Role.class, cascade = {CascadeType.ALL, CascadeType.PERSIST}, fetch=FetchType.EAGER)
