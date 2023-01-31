@@ -18,7 +18,7 @@ public interface BankService {
 
     Boolean deleteBankById(Long id);
 
-    List<FixedDeposits> findAllDeposists_dependsOnBank(Long id);
+    // List<FixedDeposits> findAllDeposists_dependsOnBank(Long id);
 
 
     

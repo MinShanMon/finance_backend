@@ -1,6 +1,8 @@
 package com.personalfinance.backend;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -22,6 +24,11 @@ public class BackendApplication {
 	@Bean
 	public CommandLineRunner run(BankRepository bankRepository, FixedDepositsRepository fixedDepositsRepository) {
 		return args -> {
+
+			List<FixedDeposits> fixedListOne = new ArrayList<FixedDeposits>();
+			List<FixedDeposits> fixedListTwo = new ArrayList<FixedDeposits>();
+
+			
 			Bank dbs = bankRepository.saveAndFlush(new Bank("dbs", "https://dbs.com"));
 			Bank posb = bankRepository.saveAndFlush(new Bank("posb", "https://posb.com"));
 			Bank uob = bankRepository.saveAndFlush(new Bank("uob", "https://uob.com"));
@@ -31,6 +38,8 @@ public class BackendApplication {
 			bankRepository.saveAndFlush(uob);
 
 			
+		
+
 			LocalDateTime now = LocalDateTime.now(); 
 			FixedDeposits fd1 = fixedDepositsRepository.saveAndFlush(new FixedDeposits(12,10,999,0.02,now,dbs));
 			FixedDeposits fd2 = fixedDepositsRepository.saveAndFlush(new FixedDeposits(12,10,999,0.02,now,dbs));

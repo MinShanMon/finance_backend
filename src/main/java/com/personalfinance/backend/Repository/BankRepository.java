@@ -15,6 +15,6 @@ import com.personalfinance.backend.Models.FixedDeposits;
 public interface BankRepository extends JpaRepository<Bank, Long>{
     
 
-    @Query(value = "SELECT * FROM fixed_deposits where bank_id = :id",nativeQuery = true)
-    List<FixedDeposits> findfddoBank(@Param("id")Long id);
+    // @Query(value = "SELECT * FROM fixed_deposits where bank_id = :id",nativeQuery = true)
+    // List<FixedDeposits> findfddoBank(@Param("id")Long id);
 }

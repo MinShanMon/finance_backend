@@ -59,11 +59,11 @@ public class BankServiceImpl implements BankService {
         }
     }
 
-    @Override
-    public List<FixedDeposits> findAllDeposists_dependsOnBank(Long id){
-        Bank bank = bankRepository.findById(id).get();
-        return bankRepository.findfddoBank(bank.getB_id());
-    }
+    // @Override
+    // public List<FixedDeposits> findAllDeposists_dependsOnBank(Long id){
+    //     Bank bank = bankRepository.findById(id).get();
+    //     return bankRepository.findfddoBank(bank.getB_id());
+    // }
 
 
 }

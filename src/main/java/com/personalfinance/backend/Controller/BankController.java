@@ -96,22 +96,22 @@ public class BankController {
 
 
     //retrieve all banks
-    @GetMapping("/fixeds/{id}")
-    public ResponseEntity<List<FixedDeposits>> getAllDeposits_byBank(@PathVariable("id") Long id){
+    // @GetMapping("/fixeds/{id}")
+    // public ResponseEntity<List<FixedDeposits>> getAllDeposits_byBank(@PathVariable("id") Long id){
         
-        try{
-            List<FixedDeposits> f_DepositsList = new ArrayList<FixedDeposits>();
-            f_DepositsList = bankService.findAllDeposists_dependsOnBank(id);
+    //     try{
+    //         List<FixedDeposits> f_DepositsList = new ArrayList<FixedDeposits>();
+    //         f_DepositsList = bankService.findAllDeposists_dependsOnBank(id);
 
-            if(f_DepositsList.isEmpty()){
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+    //         if(f_DepositsList.isEmpty()){
+    //             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    //         }
 
-            return new ResponseEntity<>(f_DepositsList, HttpStatus.OK);
-        }catch(Exception e){
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+    //         return new ResponseEntity<>(f_DepositsList, HttpStatus.OK);
+    //     }catch(Exception e){
+    //         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+    //     }
+    // }
 
 
 

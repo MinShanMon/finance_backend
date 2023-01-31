@@ -1,6 +1,7 @@
 package com.personalfinance.backend.Service;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import com.personalfinance.backend.Models.FixedDeposits;
@@ -15,4 +16,6 @@ public interface FixedDepositsService {
 
     Boolean deleteDeposistsById(Long id);
     
+
+    List<FixedDeposits> findAllDepositsDependsOnBankId(Long id);
 }

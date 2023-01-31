@@ -1,6 +1,7 @@
 package com.personalfinance.backend.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -61,6 +62,13 @@ public class FixedDepositsServiceImpl implements FixedDepositsService{
         }catch(Exception e){
             return false;
         }
+    }
+
+    @Override
+    public List<FixedDeposits> findAllDepositsDependsOnBankId(Long id){
+
+        return fixedDepositsRepository.findfddoBank(id);
+
     }
 
 
