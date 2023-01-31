@@ -1,4 +1,5 @@
 package com.personalfinance.backend.model;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -48,6 +49,12 @@ public class RegisteredUsers {
 
     @Column(name = "FaceBookId", nullable = true)
     private String fbid;
+
+    @Column(name = "confirm_account_otp")
+	private String otp;
+
+	@Column(name = "otp_requested_time")
+	private Date otpReqTime;
     
     
     @ManyToMany(targetEntity = Role.class, cascade = {CascadeType.ALL, CascadeType.PERSIST}, fetch=FetchType.EAGER)
