@@ -7,5 +7,5 @@ import com.personalfinance.backend.model.RegisteredUsers;
 
 @Repository
 public interface RegisteredUsersRepository extends JpaRepository<RegisteredUsers, Integer>{
-    
+    RegisteredUsers findByEmail(String email);
 }

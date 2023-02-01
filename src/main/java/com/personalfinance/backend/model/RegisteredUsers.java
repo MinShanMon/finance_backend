@@ -68,4 +68,15 @@ public class RegisteredUsers {
     private List<Role> roleSet;
 
 
+
+
+
+
+    public RegisteredUsers(String name, String email, String password, List<Role> role1) {
+        this.fullName = name;
+        this.email = email;
+        this.password = password;
+        this.roleSet = role1;
+
+    }
 }
