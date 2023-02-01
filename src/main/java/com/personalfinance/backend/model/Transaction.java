@@ -1,6 +1,7 @@
 package com.personalfinance.backend.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,12 +11,19 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @NoArgsConstructor
+@JsonIgnoreProperties({"user"})
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +32,10 @@ public class Transaction {
     private String title;
     private String description;
     @NotNull
+
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate date;
+
     @NotBlank
     private String category;
     private double amount;
@@ -40,6 +51,5 @@ public class Transaction {
         this.category = category;
         this.amount = amount;
     }
-
 
 }

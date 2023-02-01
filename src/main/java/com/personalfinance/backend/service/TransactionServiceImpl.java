@@ -28,6 +28,18 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionRepo.findAllTransactionsByUserId(userId);
     }
 
+    @Override
+    public Transaction updateTransaction(Transaction transaction) {
+        Transaction updatedTransaction = transactionRepo.findById(transaction.getId()).get();
+        updatedTransaction.setAmount(transaction.getAmount());
+        updatedTransaction.setCategory(transaction.getCategory());
+        updatedTransaction.setDate(transaction.getDate());
+        updatedTransaction.setDescription(transaction.getDescription());
+        updatedTransaction.setTitle(transaction.getTitle());
+        transactionRepo.save(transaction);
+        return updatedTransaction;
+    }
+
 
     
 }
