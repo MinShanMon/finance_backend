@@ -88,6 +88,23 @@ public class FixedDepositsController {
         }
     }
 
+    @GetMapping("/fixeds")
+    public ResponseEntity<List<FixedDeposits>> getAllDeposits(){
+        
+        try{
+            List<FixedDeposits> f_DepositsList = new ArrayList<FixedDeposits>();
+            f_DepositsList = fixedDepositsService.findAllDeposits();
+
+            if(f_DepositsList.isEmpty()){
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            return new ResponseEntity<>(f_DepositsList, HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     
     

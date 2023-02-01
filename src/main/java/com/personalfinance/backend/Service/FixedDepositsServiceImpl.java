@@ -71,6 +71,13 @@ public class FixedDepositsServiceImpl implements FixedDepositsService{
 
     }
 
+    @Override
+    public List<FixedDeposits> findAllDeposits(){
+
+        return fixedDepositsRepository.findAll();
+
+    }
+
 
     
 

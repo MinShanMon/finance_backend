@@ -18,4 +18,5 @@ public interface FixedDepositsService {
     
 
     List<FixedDeposits> findAllDepositsDependsOnBankId(Long id);
+    List<FixedDeposits> findAllDeposits();
 }

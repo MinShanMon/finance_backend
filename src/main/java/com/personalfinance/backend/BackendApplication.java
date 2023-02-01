@@ -25,20 +25,10 @@ public class BackendApplication {
 	public CommandLineRunner run(BankRepository bankRepository, FixedDepositsRepository fixedDepositsRepository) {
 		return args -> {
 
-			List<FixedDeposits> fixedListOne = new ArrayList<FixedDeposits>();
-			List<FixedDeposits> fixedListTwo = new ArrayList<FixedDeposits>();
 
-			
 			Bank dbs = bankRepository.saveAndFlush(new Bank("dbs", "https://dbs.com"));
-			Bank posb = bankRepository.saveAndFlush(new Bank("posb", "https://posb.com"));
 			Bank uob = bankRepository.saveAndFlush(new Bank("uob", "https://uob.com"));
 
-			bankRepository.saveAndFlush(dbs);
-			bankRepository.saveAndFlush(posb);
-			bankRepository.saveAndFlush(uob);
-
-			
-		
 
 			LocalDateTime now = LocalDateTime.now(); 
 			FixedDeposits fd1 = fixedDepositsRepository.saveAndFlush(new FixedDeposits(12,10,999,0.02,now,dbs));
