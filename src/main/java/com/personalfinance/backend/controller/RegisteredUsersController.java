@@ -30,6 +30,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 
 import com.personalfinance.backend.model.Role;
+import com.personalfinance.backend.model.Token;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -107,17 +108,13 @@ public class RegisteredUsersController {
                 .withExpiresAt(new Date(System.currentTimeMillis() + 60 *60 *1000))
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles", user.getRoleSet().stream().map(Role::getName).collect(Collectors.toList()))
-                // .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
 
-                // response.setHeader("access_token", access_token);
-                // response.setHeader("refresh_token", refresh_token);
-
-                Map<String, String> tokens = new HashMap<>();
-                tokens.put("access_token", access_token);
-                tokens.put("refresh_token", refresh_token);
+                Token tokenss = new Token();
+                tokenss.setAccess_token(access_token);
+                tokenss.setRefresh_token(refresh_token);
                 response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+                new ObjectMapper().writeValue(response.getOutputStream(), tokenss);
                 
             }
             catch(Exception exception){
