@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import com.personalfinance.backend.exception.ResourceNotFoundException;
 import com.personalfinance.backend.model.RegisteredUsers;
 import com.personalfinance.backend.repository.RegisteredUsersRepository;
 
@@ -60,6 +61,11 @@ public class RegisteredUsersServiceImpl implements RegisteredUsersService, UserD
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
     } 
     
+    @Override
+    public String getToken(String email){
+        RegisteredUsers user = findByEmail(email);
+        return user.getJwtToken();
+    }
 
     @Override
     public RegisteredUsers saveUser(RegisteredUsers user) {
@@ -68,11 +74,19 @@ public class RegisteredUsersServiceImpl implements RegisteredUsersService, UserD
         return registeredUsersRepository.saveAndFlush(user);
     }
 
+    @Override
+    public void saveToken(String emai, String token){
+        RegisteredUsers email = findByEmail(emai);
+        email.setJwtToken(token);
+        registeredUsersRepository.saveAndFlush(email);
+    }
 
     @Override
-    public RegisteredUsers findByEmail(String email) {
+    public RegisteredUsers findByEmail(String email) throws ResourceNotFoundException{
         // TODO Auto-generated method stub
+    
         return registeredUsersRepository.findByEmail(email);
+        
     }
 
     

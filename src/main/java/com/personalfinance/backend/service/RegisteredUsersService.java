@@ -7,4 +7,8 @@ public interface RegisteredUsersService {
     RegisteredUsers saveUser(RegisteredUsers user);
 
     RegisteredUsers findByEmail(String email);
+
+    void saveToken(String emai, String token);
+
+    String getToken(String email);
 }
