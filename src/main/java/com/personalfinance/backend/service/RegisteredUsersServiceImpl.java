@@ -43,7 +43,7 @@ public class RegisteredUsersServiceImpl implements RegisteredUsersService, UserD
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         // TODO Auto-generated method stub
-        RegisteredUsers user = registeredUsersRepository.findByEmail(email);
+        RegisteredUsers user = findByEmail(email);
         if(user == null){
             log.error("User not found in the database");
             throw new UsernameNotFoundException("User not found in the database");
@@ -67,6 +67,15 @@ public class RegisteredUsersServiceImpl implements RegisteredUsersService, UserD
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return registeredUsersRepository.saveAndFlush(user);
     }
+
+
+    @Override
+    public RegisteredUsers findByEmail(String email) {
+        // TODO Auto-generated method stub
+        return registeredUsersRepository.findByEmail(email);
+    }
+
+    
 
     
 }

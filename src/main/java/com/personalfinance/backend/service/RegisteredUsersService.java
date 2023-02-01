@@ -5,4 +5,6 @@ import com.personalfinance.backend.model.RegisteredUsers;
 public interface RegisteredUsersService {
     
     RegisteredUsers saveUser(RegisteredUsers user);
+
+    RegisteredUsers findByEmail(String email);
 }

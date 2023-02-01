@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.personalfinance.backend.filter.AuthenticationCustom;
+import com.personalfinance.backend.filter.AuthorizationCustom;
 
 import lombok.RequiredArgsConstructor;
 
@@ -40,10 +41,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers("/api/custom/login/**").permitAll();
-        http.authorizeRequests().anyRequest().permitAll();           
+        http.authorizeRequests().anyRequest().authenticated();        
         http.addFilter(customAuthenticationFilter);
-        
-        
+        http.addFilterBefore(new AuthorizationCustom(), UsernamePasswordAuthenticationFilter.class);
     }
 
     
