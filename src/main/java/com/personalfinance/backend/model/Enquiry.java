@@ -6,7 +6,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.JoinColumn;
@@ -18,7 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @ToString
 @Data
@@ -26,9 +25,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @AllArgsConstructor
 @Entity
 @Table(name = "enquiries")
-@JsonIgnoreProperties({"ticket"})
 public class Enquiry {
     @Id
+    @Column(name="enquiry_id",nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
@@ -40,11 +39,7 @@ public class Enquiry {
     @Enumerated(EnumType.STRING)
     private SalutationEnum title;
 
-    @Column(name = "given_name")
-    private String givenName;
-
-    @Column(name = "surname")
-    private String surName;
+    private String name;
 
     private String email;
 
@@ -53,28 +48,27 @@ public class Enquiry {
 
     private String question;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm")
+    private LocalDateTime enquiry_dateTime;
     
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime dateTime;
-    
-    private int star;
+    private int rating;
 
+    
     @OneToOne
     @JoinColumn(name="ticket_id")
     private Ticket ticket;
 
-    public Enquiry(EnquiryTypeEnum enquiryType,SalutationEnum title, String givenName,String surName,String email,
-    String phoneNum,String question, LocalDateTime dateTime,int star,Ticket ticket){ 
+    public Enquiry(EnquiryTypeEnum enquiryType,SalutationEnum title, String name,String email,
+    String phoneNum,String question, LocalDateTime dateTime,int rating,Ticket ticket){ 
 
         this.enquiryType= enquiryType;
         this.title = title;
-        this.givenName = givenName;
-        this.surName = surName;
+        this.name = name;
         this.email = email;
         this.phoneNum = phoneNum;
         this.question = question;
-        this.dateTime = dateTime;
-        this.star = star;
+        this.enquiry_dateTime = dateTime;
+        this.rating = rating;
         this.ticket = ticket;
     }
 }

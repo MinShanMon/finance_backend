@@ -36,22 +36,30 @@ public class BackendApplication {
 			Ticket tik4 = tikRepository.saveAndFlush(new Ticket("GOOD",TicketStatusEnum.CLOSED,LocalDateTime.now().minusDays(10)));
 			tikRepository.saveAndFlush(tik4);
 
-			Enquiry enq1 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.PRODUCT, SalutationEnum.MS,"adele","Tan",
+			Ticket tik5 = tikRepository.saveAndFlush(new Ticket("GOOD",TicketStatusEnum.CLOSED,LocalDateTime.now().minusDays(18)));
+			tikRepository.saveAndFlush(tik5);
+
+
+			Enquiry enq1 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.PRODUCT, SalutationEnum.MS,"Adele Tan",
 			"123@gmail.com", "12345678", "how to buy fet",LocalDateTime.now(), 4,tik1));
 			enqRepository.saveAndFlush(enq1);
 
-			Enquiry enq2 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.FEEDBACK, SalutationEnum.MRS, "KIM","J",
+			Enquiry enq2 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.FEEDBACK, SalutationEnum.MRS, "KIM Jean",
 			"456@gmail.com", "556789", "Good service", LocalDateTime.now().minusDays(3),5,tik2));
 			enqRepository.saveAndFlush(enq2);
 			
 			
-			Enquiry enq3 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.ACCOUNT,SalutationEnum.MR, "JOHN","Tan",
+			Enquiry enq3 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.ACCOUNT,SalutationEnum.MR, "JOHN Tan",
 			"789@gmail.com", "000000", "how to register account",LocalDateTime.now().minusDays(8), 3,tik3));
 			enqRepository.saveAndFlush(enq3);
 
-			Enquiry enq4 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.FEEDBACK, SalutationEnum.MRS, "KIM","J",
+			Enquiry enq4 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.FEEDBACK, SalutationEnum.MRS, "KIM Jean",
 			"456@gmail.com", "556789", "bad service", LocalDateTime.now().minusDays(10),1,tik4));
 			enqRepository.saveAndFlush(enq4);
+
+			Enquiry enq5 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.PRODUCT, SalutationEnum.MS,"Davie Hans",
+			"000@gmail.com", "000000", "how to buy fet",LocalDateTime.now().minusDays(20).minusYears(2), 4,tik5));
+			enqRepository.saveAndFlush(enq5);
 			
 		};
 
