@@ -78,15 +78,6 @@ public class FixedDepositsServiceImpl implements FixedDepositsService{
 
     }
 
-
-    
-
-
-    
-
-
-
-
     @Override
     public Optional<FixedDeposits> findFixedById(long id){
         return fixedDepositsRepository.findById(id);

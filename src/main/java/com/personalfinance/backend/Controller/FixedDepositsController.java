@@ -71,8 +71,8 @@ public class FixedDepositsController {
         }
     }
 
-     @GetMapping("/fixeds/{id}")
-    public ResponseEntity<List<FixedDeposits>> getAllDeposits_byBank(@PathVariable("id") Long id){
+     @GetMapping("/fixeds/{b_id}")
+    public ResponseEntity<List<FixedDeposits>> getAllDeposits_byBank(@PathVariable("b_id") Long id){
         
         try{
             List<FixedDeposits> f_DepositsList = new ArrayList<FixedDeposits>();
