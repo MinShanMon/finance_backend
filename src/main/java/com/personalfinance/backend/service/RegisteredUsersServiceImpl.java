@@ -82,6 +82,12 @@ public class RegisteredUsersServiceImpl implements RegisteredUsersService, UserD
     }
 
     @Override
+    public void deleteToken(String emai){
+        RegisteredUsers email = findByEmail(emai);
+        email.setJwtToken(null);
+        registeredUsersRepository.saveAndFlush(email);
+    }
+    @Override
     public RegisteredUsers findByEmail(String email) throws ResourceNotFoundException{
         // TODO Auto-generated method stub
     

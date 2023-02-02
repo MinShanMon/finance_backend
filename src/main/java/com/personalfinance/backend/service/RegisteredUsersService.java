@@ -11,4 +11,6 @@ public interface RegisteredUsersService {
     void saveToken(String emai, String token);
 
     String getToken(String email);
+
+    void deleteToken(String email);
 }
