@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -47,41 +49,34 @@ public class RegisteredUsers {
     @Column(name = "UserPassword", nullable = true)
     private String password;
 
+    @Column(name = "status", columnDefinition =  "ENUM('ACTIVATED', 'PENDING')")
+    @Enumerated(EnumType.STRING)
+    private StatusEnum status;
+
     @Column(name = "FaceBookId", nullable = true)
     private String fbid;
 
-    @Column(name = "confirm_account_otp")
+    @Column(name = "confirm_account_otp", nullable = true)
 	private String otp;
 
-	@Column(name = "otp_requested_time")
-	private Date otpReqTime;
+	@Column(name = "otp_requested_time",nullable = true)
+	private Long otpReqTime;
 
-    @Column(name = "JwtToken")
+    @Column(name = "JwtToken", nullable = true)
     private String jwtToken;
     
     
-    @ManyToMany(targetEntity = Role.class, cascade = {CascadeType.ALL, CascadeType.PERSIST}, fetch=FetchType.EAGER)
+    @ManyToMany(targetEntity = Role.class)
     @JoinTable(name = "userrole", joinColumns = {
         @JoinColumn(name = "user_id", referencedColumnName = "UserId") }, inverseJoinColumns = {
             @JoinColumn(name = "role_id", referencedColumnName = "RoleId") }
     )
     private List<Role> roleSet;
 
-
-
-
-
-
     public RegisteredUsers(String name, String email, String password, List<Role> role1) {
         this.fullName = name;
         this.email = email;
         this.password = password;
         this.roleSet = role1;
-
     }
-
-
-
-
-
 }

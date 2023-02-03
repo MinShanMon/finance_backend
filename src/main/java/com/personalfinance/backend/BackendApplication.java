@@ -30,21 +30,28 @@ public class BackendApplication {
 	@Bean
 	CommandLineRunner run(RegisteredUsersService userService, RoleService roleService){
 		return args -> {
-			// Role admin = roleService.saveRole(new Role("Admin"));
-			// Role user = roleService.saveRole(new Role("User"));
-			
-
+			// roleService.saveRole(new Role("Admin"));
+			// roleService.saveRole(new Role("User"));
+			// Role admin = roleService.findRoleByName("Admin");
+			// Role user = roleService.findRoleByName("User");
 			// List<Role> role1 = new ArrayList<>();
-			// role1.add(new Role("Admin"));
-			// role1.add(new Role("User"));
 
+			// role1.add(admin);
+			// role1.add(user);
 
 			// List<Role> role2 = new ArrayList<>();
-			// role2.add(new Role("User"));
+			// role2.add(user);
 
-			// userService.saveUser(new RegisteredUsers("oscar", "oscar@gmail.com", "root", role1));
-			// userService.saveUser(new RegisteredUsers("shan", "shan@gmail.com", "root", role2));
-			
+			// RegisteredUsers osc = new RegisteredUsers("oscar", "oscarshan2017@gmail.com", "root", role1);
+			// RegisteredUsers sh = new RegisteredUsers("shan", "shan@gmail.com", "root", role2);
+			// userService.saveUser(osc);
+			// userService.saveUser(sh);
+
+
+
+			// // Role r = roleService.findRoleByName("User");
+			// System.out.println(admin.getName());
+			// System.out.println(role1.get(1).getName());
 		};
 	}
 

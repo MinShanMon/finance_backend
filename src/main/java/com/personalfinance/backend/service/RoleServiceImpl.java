@@ -23,8 +23,14 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Role saveRole(Role role) {
         // TODO Auto-generated method stub
-        
-        return roleRepository.saveAndFlush(role);
+        roleRepository.saveAndFlush(role);
+        return role;
+    }
+
+    @Override
+    public Role findRoleByName(String name){
+        Role role = roleRepository.findByName(name);
+        return role;
     }
     
 }

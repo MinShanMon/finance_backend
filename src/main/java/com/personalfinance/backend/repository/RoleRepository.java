@@ -7,5 +7,5 @@ import com.personalfinance.backend.model.Role;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Integer>{
-    
+    Role findByName(String name);
 }

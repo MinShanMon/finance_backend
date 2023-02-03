@@ -1,6 +1,8 @@
 package com.personalfinance.backend.service;
 
 import com.personalfinance.backend.model.RegisteredUsers;
+import java.io.UnsupportedEncodingException;
+import javax.mail.MessagingException;
 
 public interface RegisteredUsersService {
     
@@ -13,4 +15,16 @@ public interface RegisteredUsersService {
     String getToken(String email);
 
     void deleteToken(String email);
+
+    String createOTP(String email);
+
+    void sendEmail(String email) throws UnsupportedEncodingException, MessagingException;
+
+    void deleteOtp(String email);
+
+    RegisteredUsers registerUserAccount(RegisteredUsers ruser)  throws UnsupportedEncodingException, MessagingException;
+
+    Integer validateOTP(String email, String OTP);
+
+    
 }
