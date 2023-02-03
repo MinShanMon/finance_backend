@@ -120,10 +120,13 @@ public class RegisteredUsersServiceImpl implements RegisteredUsersService, UserD
 		String OTP = Integer.toString(rnd.nextInt(999999));
 
 		System.out.println("OTP is: " + OTP);
+        
 
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String encoderOTP = passwordEncoder.encode(OTP);
-
+        
+        
+        
         user.setOtp(encoderOTP);
         user.setOtpReqTime(System.currentTimeMillis()+ 5 * 60 *1000);
         registeredUsersRepository.saveAndFlush(user);
@@ -184,24 +187,61 @@ public class RegisteredUsersServiceImpl implements RegisteredUsersService, UserD
         user.setStatus(StatusEnum.PENDING);
         registeredUsersRepository.saveAndFlush(user);
         sendEmail(rUser.getEmail());
-        
         return user;
     }
 
     @Override
     public Integer validateOTP(String email, String OTP){
         RegisteredUsers user = findByEmail(email);
-
-        if(user.getOtpReqTime() > System.currentTimeMillis()){
-            if(OTP.equals(user.getOtp())){
-                return 0;
-            }
-            else{
-                return 1;
-            }
+        
+        if(user == null){
+            return 3;
         }
         else{
-            return 2;
+            if(user.getOtpReqTime() > System.currentTimeMillis()){
+                if(passwordEncoder.matches(OTP, user.getOtp())){
+                    deleteOtp(email);
+                    return 0;
+                }
+                else{
+                    return 1;
+                }
+            }
+            else{
+
+                return 2;
+            }
+        }
+        
+    }
+
+    @Override
+    public boolean checkStatus(String email) throws UnsupportedEncodingException, MessagingException{
+        RegisteredUsers user = findByEmail(email);
+        
+        if(user.getStatus().equals(StatusEnum.ACTIVATED)){
+            return true;
+        }
+        else{
+            sendEmail(email);
+            return false;
         }
     }
+
+    @Override
+    public boolean resetPassword(String email, String password){
+
+        
+
+        if(email.equals(null)){
+            return false;
+        }
+        else{
+            RegisteredUsers user = findByEmail(email);
+            user.setPassword(passwordEncoder.encode(password));
+            registeredUsersRepository.saveAndFlush(user);
+            return true;
+        }
+    }
+
 }

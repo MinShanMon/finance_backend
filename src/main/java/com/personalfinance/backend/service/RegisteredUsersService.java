@@ -26,5 +26,9 @@ public interface RegisteredUsersService {
 
     Integer validateOTP(String email, String OTP);
 
+    boolean checkStatus(String email) throws UnsupportedEncodingException, MessagingException;
+
+    boolean resetPassword(String email, String password);
+    
     
 }

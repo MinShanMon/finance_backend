@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.personalfinance.backend.exception.ForbiddenException;
 import com.personalfinance.backend.exception.ResourceNotFoundException;
+import com.personalfinance.backend.exception.TimeOutException;
 import com.personalfinance.backend.model.RegisteredUsers;
 import com.personalfinance.backend.service.RegisteredUsersService;
 
@@ -72,6 +73,26 @@ public class RegisteredUsersController {
         
     }
 
+    @GetMapping("/user/addSessionUser")
+    public ResponseEntity<RegisteredUsers> getUserByEmail(@RequestParam("email") String email, HttpServletRequest request){
+        try{
+            RegisteredUsers user = userService.findByEmail(email);
+            if(user == null){
+                throw new ResourceNotFoundException();
+            }
+            String authorizationHeader = request.getHeader(AUTHORIZATION);
+            String token = authorizationHeader.substring("Bearer ".length());
+            userService.saveToken(email, token);
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
+        catch(ResourceNotFoundException e){
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/user/deleteToken")
     public ResponseEntity<Long> deleteToken(@RequestParam String email){
         try{
@@ -85,7 +106,7 @@ public class RegisteredUsersController {
     }
 
     @GetMapping("/user/checkToken")
-    public ResponseEntity<Long> deleteMember(@RequestParam("email") String email, HttpServletRequest request) {
+    public ResponseEntity<Long> checkToken(@RequestParam("email") String email, HttpServletRequest request) {
         
         try {
             String utk = userService.getToken(email);
@@ -167,6 +188,7 @@ public class RegisteredUsersController {
             if(user == null){
                 throw new ResourceNotFoundException();
             }
+
             userService.sendEmail(email);
             Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
             String access_token = JWT.create()
@@ -180,10 +202,94 @@ public class RegisteredUsersController {
             tokenss.setAccess_token(access_token);
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             new ObjectMapper().writeValue(response.getOutputStream(), tokenss);
+
+            userService.saveToken(email, access_token);
             return new ResponseEntity<>(HttpStatus.OK);
+        }
+        // catch(ForbiddenException e){
+        //     return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        // }
+        catch(ResourceNotFoundException e){
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/user/otpverify")
+    public ResponseEntity<Long> verifyOTP(@RequestParam String email, @RequestParam String otp, HttpServletRequest request){
+        try{
+
+            String utk = userService.getToken(email);            
+            String authorizationHeader = request.getHeader(AUTHORIZATION);
+            String token = authorizationHeader.substring("Bearer ".length());   
+            if (!utk.equals(token)){
+                throw new Exception();
+            }
+            Integer i = userService.validateOTP(email, otp);
+            if(i == 3){
+                throw new ForbiddenException();
+            }
+            if(i == 2){
+                throw new TimeOutException();
+            }
+            if(i == 1){
+                throw new ResourceNotFoundException();
+            }
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch(ForbiddenException e){
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
+        catch(TimeOutException e){
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         }
         catch(ResourceNotFoundException e){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/user/checkstatus")
+    public ResponseEntity<Long> checkStatus(@RequestParam String email, HttpServletRequest request){
+        try{
+            boolean status = userService.checkStatus(email);
+            if(status){
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            else{
+                throw new TimeOutException();
+            }
+        }
+        catch(TimeOutException e){
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/user/resetpassword")
+    public ResponseEntity<Long> resetPassword(@RequestParam String email, @RequestParam String password, HttpServletRequest request){
+        try{
+            String utk = userService.getToken(email);
+            String authorizationHeader = request.getHeader(AUTHORIZATION);
+            String token = authorizationHeader.substring("Bearer ".length());   
+            if (utk.equals(token)) {
+                boolean pass = userService.resetPassword(email, password);
+                if(pass){
+                    return new ResponseEntity<>(HttpStatus.OK);
+                }
+                else{
+                    throw new Exception();
+                }
+            }
+            else{
+                throw new Exception();
+            }
         }
         catch(Exception e){
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

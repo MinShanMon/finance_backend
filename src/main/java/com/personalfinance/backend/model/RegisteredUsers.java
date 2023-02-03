@@ -73,10 +73,11 @@ public class RegisteredUsers {
     )
     private List<Role> roleSet;
 
-    public RegisteredUsers(String name, String email, String password, List<Role> role1) {
+    public RegisteredUsers(String name, String email, String password, List<Role> role1, StatusEnum status) {
         this.fullName = name;
         this.email = email;
         this.password = password;
         this.roleSet = role1;
+        this.status = status;
     }
 }

@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.personalfinance.backend.model.RegisteredUsers;
 import com.personalfinance.backend.model.Role;
+import com.personalfinance.backend.model.StatusEnum;
 import com.personalfinance.backend.service.RegisteredUsersService;
 import com.personalfinance.backend.service.RoleService;
 
@@ -53,8 +54,8 @@ public class BackendApplication {
 			// List<Role> role2 = new ArrayList<>();
 			// role2.add(user);
 
-			// RegisteredUsers osc = new RegisteredUsers("oscar", "oscarshan2017@gmail.com", "root", role1);
-			// RegisteredUsers sh = new RegisteredUsers("shan", "shan@gmail.com", "root", role2);
+			// RegisteredUsers osc = new RegisteredUsers("oscar", "oscarshan2017@gmail.com", "root", role1, StatusEnum.ACTIVATED);
+			// RegisteredUsers sh = new RegisteredUsers("shan", "shan@gmail.com", "root", role2, StatusEnum.ACTIVATED);
 			// userService.saveUser(osc);
 			// userService.saveUser(sh);
 
