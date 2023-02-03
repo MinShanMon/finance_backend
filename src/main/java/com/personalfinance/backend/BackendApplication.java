@@ -38,25 +38,35 @@ public class BackendApplication {
 		return new BCryptPasswordEncoder();
 	}
 
-	
-	public CommandLineRunner cLineRunner(RegisteredUsersService userService, RoleService roleService, TransactionRepository transactionRepo, RegUserRepository userRepo) {
+	@Bean
+	CommandLineRunner run(RegisteredUsersService userService, RoleService roleService){
 		return args -> {
-			roleService.saveRole(new Role("Admin"));
-			roleService.saveRole(new Role("User"));
-			Role admin = roleService.findRoleByName("Admin");
-			Role user = roleService.findRoleByName("User");
-			List<Role> role1 = new ArrayList<>();
+			// roleService.saveRole(new Role("Admin"));
+			// roleService.saveRole(new Role("User"));
+			// Role admin = roleService.findRoleByName("Admin");
+			// Role user = roleService.findRoleByName("User");
+			// List<Role> role1 = new ArrayList<>();
 
-			role1.add(admin);
-			role1.add(user);
+			// role1.add(admin);
+			// role1.add(user);
 
-			List<Role> role2 = new ArrayList<>();
-			role2.add(user);
+			// List<Role> role2 = new ArrayList<>();
+			// role2.add(user);
 
-			RegisteredUsers osc = new RegisteredUsers("oscar", "oscarshan2017@gmail.com", "root", role1);
-			RegisteredUsers sh = new RegisteredUsers("shan", "shan@gmail.com", "root", role2);
-			userService.saveUser(osc);
-			userService.saveUser(sh);
+			// RegisteredUsers osc = new RegisteredUsers("oscar", "oscarshan2017@gmail.com", "root", role1);
+			// RegisteredUsers sh = new RegisteredUsers("shan", "shan@gmail.com", "root", role2);
+			// userService.saveUser(osc);
+			// userService.saveUser(sh);
+
+			// // Role r = roleService.findRoleByName("User");
+			// System.out.println(admin.getName());
+			// System.out.println(role1.get(1).getName());
+		};
+	}
+	
+	// public CommandLineRunner cLineRunner(RegisteredUsersService userService, RoleService roleService, TransactionRepository transactionRepo, RegUserRepository userRepo) {
+	// 	return args -> {
+
 
 
 
@@ -99,8 +109,8 @@ public class BackendApplication {
 			// System.out.println(testListMonth.size());
 
 
-		};
+		// };
 
-	}
+	// }
 
 }

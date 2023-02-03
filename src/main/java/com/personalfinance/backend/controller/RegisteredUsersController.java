@@ -159,8 +159,8 @@ public class RegisteredUsersController {
         }
     }
 
-    @GetMapping("/user/sentOTP")
-    public ResponseEntity<Long> sentOTP(@RequestParam String email){
+    @GetMapping("/user/sentOTPByEmail")
+    public ResponseEntity<Long> sentOTP(@RequestParam String email, HttpServletRequest request,  HttpServletResponse response){
 
         try{
             RegisteredUsers user = userService.findByEmail(email);
@@ -168,6 +168,18 @@ public class RegisteredUsersController {
                 throw new ResourceNotFoundException();
             }
             userService.sendEmail(email);
+            Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+            String access_token = JWT.create()
+                .withSubject(user.getEmail())
+                .withExpiresAt(new Date(System.currentTimeMillis() + 5 *60 *1000))
+                .withIssuer(request.getRequestURL().toString())
+                .withClaim("roles", user.getRoleSet().stream().map(Role::getName).collect(Collectors.toList()))
+                .sign(algorithm);
+
+            Token tokenss = new Token();
+            tokenss.setAccess_token(access_token);
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            new ObjectMapper().writeValue(response.getOutputStream(), tokenss);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         catch(ResourceNotFoundException e){
