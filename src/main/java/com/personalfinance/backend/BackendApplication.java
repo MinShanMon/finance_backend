@@ -39,7 +39,7 @@ public class BackendApplication {
 	}
 
 	
-	public CommandLineRunner cLineRunner(TransactionRepository transactionRepo, RegUserRepository userRepo) {
+	public CommandLineRunner cLineRunner(RegisteredUsersService userService, RoleService roleService, TransactionRepository transactionRepo, RegUserRepository userRepo) {
 		return args -> {
 			roleService.saveRole(new Role("Admin"));
 			roleService.saveRole(new Role("User"));
