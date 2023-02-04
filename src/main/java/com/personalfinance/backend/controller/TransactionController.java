@@ -4,9 +4,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.personalfinance.backend.comparator.TransactionDateComparator;
-import com.personalfinance.backend.model.RegUser;
+import com.personalfinance.backend.model.RegisteredUsers;
 import com.personalfinance.backend.model.Transaction;
-import com.personalfinance.backend.service.RegUserService;
+import com.personalfinance.backend.service.RegisteredUsersService;
 import com.personalfinance.backend.service.TransactionService;
 
 import java.time.LocalDate;
@@ -33,10 +33,10 @@ public class TransactionController {
     TransactionService transactionSvc;
 
     @Autowired
-    RegUserService regUserService;
+    RegisteredUsersService regUserService;
 
     @GetMapping("/transaction/{userId}")
-    public ResponseEntity<List<Transaction>> getAllTransactionsByUserId(@PathVariable("userId") long userId,
+    public ResponseEntity<List<Transaction>> getAllTransactionsByUserId(@PathVariable("userId") int userId,
             @RequestParam(value = "month", required = false) Integer month) {
         try {
             if (month == null) {
@@ -54,13 +54,13 @@ public class TransactionController {
     }
 
     @PostMapping("/transaction/{userId}")
-    public ResponseEntity<Transaction> addTransaction(@PathVariable("userId") long userId,
+    public ResponseEntity<Transaction> addTransaction(@PathVariable("userId") int userId,
             @RequestBody Transaction transaction) {
 
         try {
             Transaction createdTransaction = new Transaction(transaction.getTitle(), transaction.getDescription(),
                     transaction.getDate(), transaction.getCategory(), transaction.getAmount());
-            RegUser user = regUserService.getUserById(userId);
+                    RegisteredUsers user = regUserService.getUserById(userId);
             createdTransaction.setUser(user);
             transactionSvc.addTransaction(createdTransaction);
             return new ResponseEntity<>(createdTransaction, HttpStatus.CREATED);
@@ -72,7 +72,7 @@ public class TransactionController {
     }
 
     @PutMapping("/transaction/{userId}")
-    public ResponseEntity<Transaction> updateTransaction(@PathVariable("userId") long userId,
+    public ResponseEntity<Transaction> updateTransaction(@PathVariable("userId") int userId,
             @RequestBody Transaction transaction) {
 
         try {
@@ -84,7 +84,7 @@ public class TransactionController {
     }
 
     @DeleteMapping("/transaction/{userid}")
-    public ResponseEntity<Transaction> deleteTransaction(@PathVariable("userId") long userId,
+    public ResponseEntity<Transaction> deleteTransaction(@PathVariable("userId") int userId,
             @RequestBody Transaction transaction) {
 
         try {

@@ -29,6 +29,8 @@ public interface RegisteredUsersService {
     boolean checkStatus(String email) throws UnsupportedEncodingException, MessagingException;
 
     boolean resetPassword(String email, String password);
+
+    RegisteredUsers getUserById(int id);
     
     
 }

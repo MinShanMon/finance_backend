@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
@@ -64,7 +65,9 @@ public class RegisteredUsers {
 
     @Column(name = "JwtToken", nullable = true)
     private String jwtToken;
-    
+
+    @OneToMany (mappedBy = "user")
+    private List<Transaction> transactions;
     
     @ManyToMany(targetEntity = Role.class)
     @JoinTable(name = "userrole", joinColumns = {

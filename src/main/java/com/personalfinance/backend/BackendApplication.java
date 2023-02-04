@@ -22,9 +22,8 @@ import com.personalfinance.backend.service.RoleService;
 
 
 import com.personalfinance.backend.model.Transaction;
-import com.personalfinance.backend.model.RegUser;
 import com.personalfinance.backend.repository.TransactionRepository;
-import com.personalfinance.backend.repository.RegUserRepository;
+
 
 
 @SpringBootApplication

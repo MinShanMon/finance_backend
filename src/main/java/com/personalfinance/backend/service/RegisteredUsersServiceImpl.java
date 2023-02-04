@@ -57,6 +57,13 @@ public class RegisteredUsersServiceImpl implements RegisteredUsersService, UserD
 
     private final PasswordEncoder passwordEncoder;
     
+
+    @Override
+    public RegisteredUsers getUserById(int id) {
+        return registeredUsersRepository.findById(id).get();
+    }
+
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         // TODO Auto-generated method stub
