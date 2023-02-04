@@ -3,15 +3,11 @@ package com.personalfinance.backend.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.personalfinance.backend.comparator.TransactionDateComparator;
 import com.personalfinance.backend.model.RegUser;
 import com.personalfinance.backend.model.Transaction;
 import com.personalfinance.backend.service.RegUserService;
 import com.personalfinance.backend.service.TransactionService;
 
-import java.time.LocalDate;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,11 +37,9 @@ public class TransactionController {
         try {
             if (month == null) {
                 List<Transaction> transactions = transactionSvc.getAllTransactionsByUserId(userId);
-                Collections.sort(transactions, new TransactionDateComparator());
                 return new ResponseEntity<>(transactions, HttpStatus.OK);
             }
             List<Transaction> transactions = transactionSvc.getAllTransactionsByUserIdAndMonth(userId, month);
-            Collections.sort(transactions, new TransactionDateComparator());
             return new ResponseEntity<>(transactions, HttpStatus.OK);
 
         } catch (Exception e) {

@@ -10,8 +10,9 @@ import com.personalfinance.backend.model.Transaction;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     
+    @Query("SELECT t FROM Transaction t WHERE t.user.id = :userId ORDER BY t.date DESC")
     public List<Transaction> findAllTransactionsByUserId(long userId);
 
-    @Query("SELECT t FROM Transaction t WHERE t.user.id = :userId AND MONTH(t.date) = :month")
+    @Query("SELECT t FROM Transaction t WHERE t.user.id = :userId AND MONTH(t.date) = :month ORDER BY t.date DESC")
     public List<Transaction> findAllTransactionsByUserIdAndMonth(@Param("userId") long userId, @Param("month") Integer month);
 }
