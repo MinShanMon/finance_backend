@@ -5,7 +5,8 @@ import com.personalfinance.backend.model.Ticket;
 
 public interface TicketService {
 
+    Ticket saveTik(Ticket tik);
+    Ticket updateTik(Ticket updateTik,Integer id);
     boolean sendEmail(Integer id) throws ResourceNotFoundException;
     
-    Ticket updateReply(Ticket tik, Integer id);
 }

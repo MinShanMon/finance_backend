@@ -1,6 +1,8 @@
 package com.personalfinance.backend.service;
 
 
+import java.time.LocalDateTime;
+
 import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -26,14 +28,24 @@ public class TicketServiceImpl implements TicketService {
     private JavaMailSender mailSender;
  
     @Override
-    public Ticket updateReply(Ticket tik, Integer id){
-        if(tikRepository.findById(id).get() != null &&
-        tik.getTikStatus() == TicketStatusEnum.OPEN) {
-            tik.setReply(tik.getReply());
-            tikRepository.saveAndFlush(tik);
-            return tik;
-        }return tik;
+    public Ticket saveTik(Ticket tik) {
+        return tikRepository.save(tik);
     }
+
+    @Override
+    public Ticket updateTik(Ticket updateTik,Integer id){
+       Ticket tik = tikRepository.findById(id).get();
+        if(tik != null &&
+        tik.getTikStatus() == TicketStatusEnum.OPEN){
+            tik.setReply(updateTik.getReply());
+            tik.setTikStatus(updateTik.getTikStatus());
+            updateTik.getReply_dateTime();
+            tik.setReply_dateTime(LocalDateTime.now());
+            return tikRepository.saveAndFlush(tik);
+        }
+        return tikRepository.save(tik);
+    }
+
 
    @Override
     public boolean sendEmail(Integer id) throws ResourceNotFoundException {

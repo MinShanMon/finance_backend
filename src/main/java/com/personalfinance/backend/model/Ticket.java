@@ -20,9 +20,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-
-@ToString
 @Data
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -45,11 +44,12 @@ public class Ticket {
     @JsonIgnore
     @OneToOne(mappedBy = "ticket")
     private Enquiry enquiry;
-   
+
     public Ticket(String reply,TicketStatusEnum tikStatus, LocalDateTime reply_dateTime){ 
 
         this.reply= reply;
         this.tikStatus = tikStatus;
         this.reply_dateTime = reply_dateTime;
     }
+
 }

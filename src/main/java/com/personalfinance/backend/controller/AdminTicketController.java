@@ -47,29 +47,42 @@ public class AdminTicketController {
         return new ResponseEntity <>(enqService.getClosedEnquiry(), HttpStatus.OK);
     }
 
+    @PostMapping("/ticket")
+    public ResponseEntity<Ticket> saveTicket(@RequestBody Ticket tik) {
+        //logger.info("Creating new ticket");
+        try {
+            Ticket savedTik = tikService.saveTik(tik);
+
+            return new ResponseEntity<>(savedTik, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/view/{id}")
     public ResponseEntity <Enquiry> getDetail(@PathVariable int id){
         return new ResponseEntity<>(enqService.getOneEnquiry(id),HttpStatus.OK);
     }
 
-    @PutMapping("/updateReply/{id}")
-    public ResponseEntity<Ticket> editReply(@RequestBody Ticket tik, @PathVariable int id){   
-       return new ResponseEntity<>(tikService.updateReply(tik, id),HttpStatus.OK); 
+    @PutMapping("/ticket")
+    public ResponseEntity<Ticket> editReply(@RequestBody Ticket tik){   
+        try {
+            Ticket savedTik = tikService.updateTik(tik, tik.getId());
+            return new ResponseEntity<>(savedTik, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
- 
-    @PostMapping("/reply/{id}")
+
+    @PostMapping("/sendmail/{id}")
     public ResponseEntity<?> replyEmail(@PathVariable int id) throws MessagingException, UnsupportedEncodingException{
     {
         boolean result = this.tikService.sendEmail(id);
-
         if(result){
-
             return  ResponseEntity.ok("Email Sent Successfully.");
-
         }else{
-
             return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Email Sending Fails");
         }
     }
-    }
+   }
 }    
