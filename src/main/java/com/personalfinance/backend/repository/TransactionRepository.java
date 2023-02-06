@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.personalfinance.backend.model.Transaction;
 
+
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     
     @Query("SELECT t FROM Transaction t WHERE t.user.id = :userId ORDER BY t.date DESC")

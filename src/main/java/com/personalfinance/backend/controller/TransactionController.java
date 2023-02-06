@@ -32,7 +32,7 @@ public class TransactionController {
     RegUserService regUserService;
 
     @GetMapping("/transaction/{userId}")
-    public ResponseEntity<List<Transaction>> getAllTransactionsByUserId(@PathVariable("userId") long userId,
+    public ResponseEntity<List<Transaction>> getAllTransactionsByUserId(@PathVariable("userId") int userId,
             @RequestParam(value = "month", required = false) Integer month) {
         try {
             if (month == null) {
@@ -47,8 +47,19 @@ public class TransactionController {
         }
     }
 
+    @GetMapping("/transaction")
+    public ResponseEntity<Transaction> getTransactionById(@RequestParam(value = "transactionId") int transactionId) {
+        try {
+            Transaction transaction = transactionSvc.getTransactionById(transactionId);
+            return new ResponseEntity<>(transaction, HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("/transaction/{userId}")
-    public ResponseEntity<Transaction> addTransaction(@PathVariable("userId") long userId,
+    public ResponseEntity<Transaction> addTransaction(@PathVariable("userId") int userId,
             @RequestBody Transaction transaction) {
 
         try {
@@ -66,7 +77,7 @@ public class TransactionController {
     }
 
     @PutMapping("/transaction/{userId}")
-    public ResponseEntity<Transaction> updateTransaction(@PathVariable("userId") long userId,
+    public ResponseEntity<Transaction> updateTransaction(@PathVariable("userId") int userId,
             @RequestBody Transaction transaction) {
 
         try {
@@ -78,7 +89,7 @@ public class TransactionController {
     }
 
     @DeleteMapping("/transaction/{userid}")
-    public ResponseEntity<Transaction> deleteTransaction(@PathVariable("userId") long userId,
+    public ResponseEntity<Transaction> deleteTransaction(@PathVariable("userId") int userId,
             @RequestBody Transaction transaction) {
 
         try {
