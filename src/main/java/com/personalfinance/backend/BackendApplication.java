@@ -24,7 +24,7 @@ public class BackendApplication {
 	public CommandLineRunner run(EnquiryRepository enqRepository, TicketRepository tikRepository) {
 		return args -> {
 
-			Ticket tik1 = tikRepository.saveAndFlush(new Ticket("ok",TicketStatusEnum.OPEN, LocalDateTime.now()));
+			Ticket tik1 = tikRepository.saveAndFlush(new Ticket("http://www.google.com",TicketStatusEnum.OPEN, LocalDateTime.now()));
 			tikRepository.saveAndFlush(tik1);
 
 			Ticket tik2 = tikRepository.saveAndFlush(new Ticket("FIND THIS",TicketStatusEnum.OPEN,LocalDateTime.now().minusDays(3)));
@@ -41,7 +41,7 @@ public class BackendApplication {
 
 
 			Enquiry enq1 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.PRODUCT, SalutationEnum.MS,"Adele Tan",
-			"123@gmail.com", "12345678", "how to buy fet",LocalDateTime.now(), 4,tik1));
+			"blissyetbloom@gmail.com", "12345678", "how to buy fet",LocalDateTime.now(), 4,tik1));
 			enqRepository.saveAndFlush(enq1);
 
 			Enquiry enq2 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.FEEDBACK, SalutationEnum.MRS, "KIM Jean",

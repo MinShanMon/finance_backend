@@ -50,5 +50,10 @@ public class EnquiryServiceImpl implements EnquiryService {
         return enqRepository.getDetail(id);
 
     }
-}
+
+
+    }
+
+
+
 
