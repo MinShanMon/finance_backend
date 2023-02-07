@@ -47,17 +47,15 @@ public class AdminTicketController {
         return new ResponseEntity <>(enqService.getClosedEnquiry(), HttpStatus.OK);
     }
 
-    @PostMapping("/ticket")
-    public ResponseEntity<Ticket> saveTicket(@RequestBody Ticket tik) {
-        //logger.info("Creating new ticket");
-        try {
-            Ticket savedTik = tikService.saveTik(tik);
-
-            return new ResponseEntity<>(savedTik, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+    // @PostMapping("/ticket")
+    // public ResponseEntity<Ticket> saveTicket(@RequestBody Ticket tik) {
+    //     try {
+    //         Ticket savedTik = tikService.saveTik(tik);
+    //         return new ResponseEntity<>(savedTik, HttpStatus.CREATED);
+    //     } catch (Exception e) {
+    //         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+    //     }
+    // }
 
     @GetMapping("/view/{id}")
     public ResponseEntity <Enquiry> getDetail(@PathVariable int id){
@@ -77,12 +75,13 @@ public class AdminTicketController {
     @PostMapping("/sendmail/{id}")
     public ResponseEntity<?> replyEmail(@PathVariable int id) throws MessagingException, UnsupportedEncodingException{
     {
-        boolean result = this.tikService.sendEmail(id);
-        if(result){
-            return  ResponseEntity.ok("Email Sent Successfully.");
-        }else{
-            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Email Sending Fails");
-        }
+        return new ResponseEntity <>(tikService.sendEmail(id), HttpStatus.OK);
+        // boolean result = this.tikService.sendEmail(id);
+        // if(result){
+        //     return  ResponseEntity.ok("Email Sent Successfully.");
+        // }else{
+        //     return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Email Sending Fails");
+        // }
     }
    }
 }    

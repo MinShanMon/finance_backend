@@ -52,4 +52,8 @@ public class Ticket {
         this.reply_dateTime = reply_dateTime;
     }
 
+    public Ticket(String reply){
+        this.reply = reply;
+    }
+
 }
