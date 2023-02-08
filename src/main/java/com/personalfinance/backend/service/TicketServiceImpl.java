@@ -39,7 +39,6 @@ public class TicketServiceImpl implements TicketService {
         tik.getTikStatus() == TicketStatusEnum.OPEN){
             tik.setReply(updateTik.getReply());
             tik.setTikStatus(updateTik.getTikStatus());
-            updateTik.getReply_dateTime();
             tik.setReply_dateTime(LocalDateTime.now());
             return tikRepository.saveAndFlush(tik);
         }
@@ -68,7 +67,35 @@ public class TicketServiceImpl implements TicketService {
         }
         catch (Exception e) {
                 return false;
-            }
+        }
     }
 
-}    
+    @Override
+    public boolean sendReview(Integer id) {
+        try{
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+            Enquiry enq = enqRepository.findById(id).get();
+            String subject = "Please rate our service -- FinanceManagementApp";
+            String content = "Dear " + enq.getTitle()+". "+ enq.getName() + ",\n\n" 
+            +"Please kindly review our service follows the link below:\n"
+            +"http://localhost/customer/review/"+enq.getId()+"\nWe value your feedback sincerely. Thanks a lot!"+
+            "\n\nBest regards,\nFinancial Management Team";
+
+        // Setting up necessary details
+            mailMessage.setFrom("ademailapi@gmail.com");
+            mailMessage.setTo(enq.getEmail());
+            mailMessage.setText(content);
+            mailMessage.setSubject(subject);
+
+        // Sending the mail
+            mailSender.send(mailMessage);
+            return true; 
+        }
+        catch (Exception e) {
+            return false;
+        }
+    }
+
+}
+
+   

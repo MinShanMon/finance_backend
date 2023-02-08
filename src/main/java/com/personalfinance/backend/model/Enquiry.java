@@ -51,6 +51,7 @@ public class Enquiry {
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm")
     private LocalDateTime enquiry_dateTime;
     
+    @Column(nullable = true)
     private int rating;
 
     

@@ -74,7 +74,6 @@ public class AdminTicketController {
 
     @PostMapping("/sendmail/{id}")
     public ResponseEntity<?> replyEmail(@PathVariable int id) throws MessagingException, UnsupportedEncodingException{
-    {
         return new ResponseEntity <>(tikService.sendEmail(id), HttpStatus.OK);
         // boolean result = this.tikService.sendEmail(id);
         // if(result){
@@ -83,5 +82,12 @@ public class AdminTicketController {
         //     return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Email Sending Fails");
         // }
     }
-   }
-}    
+
+    
+    @PostMapping("/sendreview/{id}")
+    public ResponseEntity<?> closeTicket (@PathVariable int id){
+        return new ResponseEntity <>(tikService.sendReview(id), HttpStatus.OK);
+    }
+
+}
+   
