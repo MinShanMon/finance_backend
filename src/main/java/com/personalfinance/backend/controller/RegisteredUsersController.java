@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.personalfinance.backend.exception.ForbiddenException;
 import com.personalfinance.backend.exception.ResourceNotFoundException;
-import com.personalfinance.backend.exception.TimeOutException;
 import com.personalfinance.backend.model.RegisteredUsers;
 import com.personalfinance.backend.service.RegisteredUsersService;
 

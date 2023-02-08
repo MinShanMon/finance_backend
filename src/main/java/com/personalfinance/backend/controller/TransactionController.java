@@ -3,7 +3,6 @@ package com.personalfinance.backend.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.personalfinance.backend.comparator.TransactionDateComparator;
 import com.personalfinance.backend.model.RegisteredUsers;
 import com.personalfinance.backend.model.Transaction;
 import com.personalfinance.backend.service.RegisteredUsersService;
