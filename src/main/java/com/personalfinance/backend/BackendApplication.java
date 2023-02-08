@@ -27,6 +27,17 @@ public class BackendApplication {
 	public CommandLineRunner cLineRunner(TransactionRepository transactionRepo, RegUserRepository userRepo) {
 		return args -> {
 			RegUser testUser = new RegUser("ivan", "ivan", "ivan@test.com", "ivaneng");
+
+			//Month of March mock data
+			Transaction fm1 = new Transaction("Breakfast", "Cafe",LocalDate.of(2023, 3, 28), "Food", -20.00);
+			Transaction fm2 = new Transaction("Lunch", "Hawker", LocalDate.of(2023, 3, 28), "Food", -60.00);
+			Transaction fm3 = new Transaction("Dinner", "Restaurant", LocalDate.of(2023, 3, 23), "Food", -120.00);
+
+			Transaction tm1 = new Transaction("Bus/MRT", "", LocalDate.of(2023, 3, 28), "Transport", -24.00);
+			Transaction tm2 = new Transaction("Grab", "", LocalDate.of(2023, 3, 28), "Transport", -70.60);
+
+			Transaction om1 = new Transaction("Retail Therapy", "Shirt", LocalDate.of(2023, 3, 28), "Others", -160.70);
+			Transaction om2 = new Transaction("Retail Therapy", "Pants", LocalDate.of(2023, 3, 28), "Others", -300.50);
 			
 			//Month of February mock data
 			Transaction f1 = new Transaction("Breakfast", "Cafe",LocalDate.of(2023, 2, 28), "Food", -10.00);
@@ -50,7 +61,7 @@ public class BackendApplication {
 			Transaction oj1 = new Transaction("Retail Therapy", "Shirt", LocalDate.of(2023, 2, 28), "Others", -80.70);
 			Transaction oj2 = new Transaction("Retail Therapy", "Pants", LocalDate.of(2023, 2, 28), "Others", -150.50);
 
-			List<Transaction> transactions = new ArrayList<>(Arrays.asList(f1, f2, f3, t1, t2, o1, o2, fj1, fj2, fj3, tj1, tj2, oj1, oj2));
+			List<Transaction> transactions = new ArrayList<>(Arrays.asList(f1, f2, f3, t1, t2, o1, o2, fj1, fj2, fj3, tj1, tj2, oj1, oj2, fm1, fm2, fm3, tm1, tm2, om1, om2));
 			for (Transaction transaction : transactions) {
 				transaction.setUser(testUser);
 			}

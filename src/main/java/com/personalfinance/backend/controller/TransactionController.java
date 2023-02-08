@@ -88,16 +88,17 @@ public class TransactionController {
         }
     }
 
-    @DeleteMapping("/transaction/{userid}")
-    public ResponseEntity<Transaction> deleteTransaction(@PathVariable("userId") int userId,
-            @RequestBody Transaction transaction) {
+    @DeleteMapping("/transaction")
+    public ResponseEntity<Long> deleteTransaction(@RequestParam("transactionId") long transactionId) {
 
         try {
-            Transaction updatedTransaction = transactionSvc.updateTransaction(transaction);
-            return new ResponseEntity<>(updatedTransaction, HttpStatus.CREATED);
+            boolean isDeleted = transactionSvc.deleteTransactionById(transactionId);
+            if (!isDeleted) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(transactionId, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }

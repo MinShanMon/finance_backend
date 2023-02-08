@@ -44,10 +44,19 @@ public class TransactionServiceImpl implements TransactionService {
         updatedTransaction.setDate(transaction.getDate());
         updatedTransaction.setDescription(transaction.getDescription());
         updatedTransaction.setTitle(transaction.getTitle());
-        transactionRepo.save(transaction);
+        transactionRepo.save(updatedTransaction);
         return updatedTransaction;
     }
 
+    @Override
+    public boolean deleteTransactionById(long transactionId) {
+        try {
+            transactionRepo.deleteById(transactionId);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
 
-    
+    }
+
 }

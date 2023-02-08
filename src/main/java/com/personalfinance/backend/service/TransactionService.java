@@ -11,4 +11,5 @@ public interface TransactionService {
     public Transaction getTransactionById(long transactionId);
     public Transaction addTransaction(Transaction transaction);
     public Transaction updateTransaction(Transaction transaction);
+    public boolean deleteTransactionById(long transactionId);
 }
