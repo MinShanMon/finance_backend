@@ -12,9 +12,11 @@ public interface RegisteredUsersService {
 
     void saveToken(String emai, String token);
 
-    String getToken(String email);
+    String getToken(Integer id);
 
-    void deleteToken(String email);
+    String getTokenByEmail(String email);
+
+    void deleteToken(Integer id);
 
     String createOTP(String email);
 
@@ -28,9 +30,20 @@ public interface RegisteredUsersService {
 
     boolean checkStatus(String email) throws UnsupportedEncodingException, MessagingException;
 
-    boolean resetPassword(String email, String password);
+    boolean resetPassword(String email, String password, String otp);
 
     RegisteredUsers getUserById(int id);
     
+    RegisteredUsers registerFacebook(RegisteredUsers user);
+
+    RegisteredUsers findByFbid(String fbid);
+
+    void saveFbToken(String fbid, String token);
+
+    RegisteredUsers editProfile(RegisteredUsers user) throws Exception;
+
+    boolean editProfilReset(Integer id, String password);
+
+    String asciiToHex(String asciiStr);
     
 }

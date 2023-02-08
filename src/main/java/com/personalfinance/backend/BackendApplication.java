@@ -1,11 +1,5 @@
 package com.personalfinance.backend;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,14 +8,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.personalfinance.backend.model.RegisteredUsers;
-import com.personalfinance.backend.model.Role;
-import com.personalfinance.backend.model.StatusEnum;
 import com.personalfinance.backend.service.RegisteredUsersService;
 import com.personalfinance.backend.service.RoleService;
 
-
-import com.personalfinance.backend.model.Transaction;
+import com.personalfinance.backend.repository.RegisteredUsersRepository;
 import com.personalfinance.backend.repository.TransactionRepository;
 
 
@@ -39,8 +29,12 @@ public class BackendApplication {
 	}
 
 	@Bean
-	CommandLineRunner run(RegisteredUsersService userService, RoleService roleService){
+	CommandLineRunner run(RegisteredUsersService userService, RoleService roleService, RegisteredUsersRepository registeredUsersRepository, TransactionRepository transactionRepo){
 		return args -> {
+			// String str = userService.asciiToHex("abcd");
+
+			// String str2 = userService.asciiToHex("1234");
+			// System.out.println(str+"and" + str2);
 			// roleService.saveRole(new Role("Admin"));
 			// roleService.saveRole(new Role("User"));
 			// Role admin = roleService.findRoleByName("Admin");
@@ -61,18 +55,30 @@ public class BackendApplication {
 			// // Role r = roleService.findRoleByName("User");
 			// System.out.println(admin.getName());
 			// System.out.println(role1.get(1).getName());
-		};
-	}
-	
-	// public CommandLineRunner cLineRunner(RegisteredUsersService userService, RoleService roleService, TransactionRepository transactionRepo, RegUserRepository userRepo) {
-	// 	return args -> {
 
 
+			// admin
 
-
-			// RegUser testUser = new RegUser("ivan", "ivan", "ivan@test.com", "ivaneng");
 			
-			// //Month of February mock data
+			
+			// roleService.saveRole(new Role("Admin"));
+			// roleService.saveRole(new Role("User"));
+			// Role admin = roleService.findRoleByName("Admin");
+			// Role user = roleService.findRoleByName("User");
+			// List<Role> role1 = new ArrayList<>();
+			// role1.add(user);
+			// RegisteredUsers testUser = new RegisteredUsers("ivan", "ivan@test.com", "root", role1 , StatusEnum.ACTIVATED);
+			// userService.saveUser(testUser);
+
+			// List<Role> role2 = new ArrayList<>();
+			// role2.add(admin);
+			// role2.add(user);
+			// RegisteredUsers osc = new RegisteredUsers("shanmon", "oscar@gmail.com", "root", role2, StatusEnum.ACTIVATED);
+			// userService.saveUser(osc);
+
+			
+			// // //Month of February mock data
+			
 			// Transaction f1 = new Transaction("Breakfast", "Cafe",LocalDate.of(2023, 2, 28), "Food", -10.00);
 			// Transaction f2 = new Transaction("Lunch", "Hawker", LocalDate.of(2023, 2, 28), "Food", -15.00);
 			// Transaction f3 = new Transaction("Dinner", "Restaurant", LocalDate.of(2023, 2, 23), "Food", -20.00);
@@ -98,7 +104,7 @@ public class BackendApplication {
 			// for (Transaction transaction : transactions) {
 			// 	transaction.setUser(testUser);
 			// }
-			// userRepo.saveAndFlush(testUser);
+			// registeredUsersRepository.saveAndFlush(testUser);
 			// transactionRepo.saveAllAndFlush(transactions);
 
 			// testUser.setTransactions(transactions);
@@ -107,6 +113,16 @@ public class BackendApplication {
 			// List<Transaction> testListMonth = transactionRepo.findAllTransactionsByUserIdAndMonth(1, 2);
 			// System.out.println(testList.size());
 			// System.out.println(testListMonth.size());
+		};
+	}
+	
+	// public CommandLineRunner cLineRunner(RegisteredUsersService userService, RoleService roleService, TransactionRepository transactionRepo, RegUserRepository userRepo) {
+	// 	return args -> {
+
+
+
+
+			
 
 
 		// };

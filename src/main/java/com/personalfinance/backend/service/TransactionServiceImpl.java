@@ -14,7 +14,7 @@ public class TransactionServiceImpl implements TransactionService {
     TransactionRepository transactionRepo;
 
     @Override
-    public List<Transaction> getAllTransactionsByUserId(long userId) {
+    public List<Transaction> getAllTransactionsByUserId(int userId) {
         return transactionRepo.findAllTransactionsByUserId(userId);
     }
 
@@ -24,7 +24,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<Transaction> getAllTransactionsByUserIdAndMonth(long userId, Integer month) {
+    public List<Transaction> getAllTransactionsByUserIdAndMonth(int userId, Integer month) {
         return transactionRepo.findAllTransactionsByUserId(userId);
     }
 

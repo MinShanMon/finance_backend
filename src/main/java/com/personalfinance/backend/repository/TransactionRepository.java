@@ -10,8 +10,8 @@ import com.personalfinance.backend.model.Transaction;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     
-    public List<Transaction> findAllTransactionsByUserId(long userId);
+    public List<Transaction> findAllTransactionsByUserId(int userId);
 
     @Query("SELECT t FROM Transaction t WHERE t.user.id = :userId AND MONTH(t.date) = :month")
-    public List<Transaction> findAllTransactionsByUserIdAndMonth(@Param("userId") long userId, @Param("month") Integer month);
+    public List<Transaction> findAllTransactionsByUserIdAndMonth(@Param("userId") int userId, @Param("month") Integer month);
 }

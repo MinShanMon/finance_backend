@@ -8,4 +8,10 @@ import com.personalfinance.backend.model.RegisteredUsers;
 @Repository
 public interface RegisteredUsersRepository extends JpaRepository<RegisteredUsers, Integer>{
     RegisteredUsers findByEmail(String email);
+
+    RegisteredUsers findByFbid(String fbid);
+
+    // RegisteredUsers findById(Integer id);
+
+
 }

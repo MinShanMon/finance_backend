@@ -85,7 +85,13 @@ public class RegisteredUsersServiceImpl implements RegisteredUsersService, UserD
     } 
     
     @Override
-    public String getToken(String email){
+    public String getToken(Integer id){
+        RegisteredUsers user = getUserById(id);
+        return user.getJwtToken();
+    }
+
+    @Override
+    public String getTokenByEmail(String email){
         RegisteredUsers user = findByEmail(email);
         return user.getJwtToken();
     }
@@ -106,8 +112,8 @@ public class RegisteredUsersServiceImpl implements RegisteredUsersService, UserD
     }
 
     @Override
-    public void deleteToken(String emai){
-        RegisteredUsers email = findByEmail(emai);
+    public void deleteToken(Integer id){
+        RegisteredUsers email = getUserById(id);
         email.setJwtToken(null);
         registeredUsersRepository.saveAndFlush(email);
     }
@@ -116,6 +122,7 @@ public class RegisteredUsersServiceImpl implements RegisteredUsersService, UserD
     public RegisteredUsers findByEmail(String email) throws ResourceNotFoundException{
         // TODO Auto-generated method stub
     
+
         return registeredUsersRepository.findByEmail(email);
         
     }
@@ -169,7 +176,7 @@ public class RegisteredUsersServiceImpl implements RegisteredUsersService, UserD
 
 		helper.setText(content, true);
 
-		mailSender.send(message);
+		// mailSender.send(message);
 
 		System.out.println("email was sent");
     }
@@ -184,6 +191,7 @@ public class RegisteredUsersServiceImpl implements RegisteredUsersService, UserD
 
     @Override
     public RegisteredUsers registerUserAccount(RegisteredUsers rUser) throws UnsupportedEncodingException, MessagingException{
+        
         RegisteredUsers user = new RegisteredUsers();
         user.setEmail(rUser.getEmail());
         user.setFullName(rUser.getFullName());
@@ -193,7 +201,6 @@ public class RegisteredUsersServiceImpl implements RegisteredUsersService, UserD
         user.setRoleSet(roles);
         user.setStatus(StatusEnum.PENDING);
         registeredUsersRepository.saveAndFlush(user);
-        sendEmail(rUser.getEmail());
         return user;
     }
 
@@ -204,10 +211,12 @@ public class RegisteredUsersServiceImpl implements RegisteredUsersService, UserD
         if(user == null){
             return 3;
         }
+        //api/user/1322373444971308
         else{
             if(user.getOtpReqTime() > System.currentTimeMillis()){
                 if(passwordEncoder.matches(OTP, user.getOtp())){
-                    deleteOtp(email);
+                    user.setStatus(StatusEnum.ACTIVATED);
+                    registeredUsersRepository.save(user);
                     return 0;
                 }
                 else{
@@ -236,19 +245,110 @@ public class RegisteredUsersServiceImpl implements RegisteredUsersService, UserD
     }
 
     @Override
-    public boolean resetPassword(String email, String password){
-
-        
+    public boolean resetPassword(String email, String password, String otp){
 
         if(email.equals(null)){
             return false;
         }
         else{
             RegisteredUsers user = findByEmail(email);
+            if(passwordEncoder.matches(otp, user.getOtp())){
+                user.setPassword(passwordEncoder.encode(password));
+                registeredUsersRepository.saveAndFlush(user);
+                deleteOtp(email);
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+    }   
+
+    @Override
+    public RegisteredUsers findByFbid(String fbid){
+
+        return  registeredUsersRepository.findByFbid(fbid);
+    }
+
+    @Override
+    public void saveFbToken(String fbid, String token){
+        RegisteredUsers user = findByFbid(fbid);
+        user.setJwtToken(token);
+        registeredUsersRepository.saveAndFlush(user);
+    }
+
+    @Override
+    public String asciiToHex(String asciiStr) {
+        char[] chars = asciiStr.toCharArray();
+        StringBuilder hex = new StringBuilder();
+        for (char ch : chars) {
+            hex.append(Integer.toHexString((int) ch));
+        }
+    
+        return hex.toString();
+    }
+    
+    @Override
+    public RegisteredUsers registerFacebook(RegisteredUsers user){
+        
+        RegisteredUsers fbUser = new RegisteredUsers();
+        //hex code need to find later
+        fbUser.setFbid(asciiToHex(user.getFbid()));
+        fbUser.setFullName(user.getFullName());
+        List<Role> roles=new ArrayList<>();
+        roles.add(roleService.findRoleByName("User"));
+        fbUser.setRoleSet(roles);
+        fbUser.setStatus(StatusEnum.ACTIVATED);
+        registeredUsersRepository.saveAndFlush(fbUser);
+        return fbUser;
+        // }
+            
+        // else{
+        //     dbFbUser.setJwtToken(token);
+        //     registeredUsersRepository.saveAndFlush(dbFbUser);
+        //     return dbFbUser;
+        // }
+    }
+
+    @Override
+    public RegisteredUsers editProfile(RegisteredUsers user) throws Exception{
+        RegisteredUsers dbUser = getUserById(user.getId());
+        String email1 = user.getEmail();
+        RegisteredUsers userCk=null;
+        if(email1 != null){
+            userCk = findByEmail(user.getEmail());
+        }
+        
+        if(userCk!= null){
+            System.out.println("hello");
+            throw new Exception();
+        }
+        if(email1 != null){
+            dbUser.setEmail(user.getEmail());
+            
+        }
+
+        dbUser.setFullName(user.getFullName());
+        registeredUsersRepository.saveAndFlush(dbUser);
+        return dbUser;
+    }
+
+    @Override
+    public boolean editProfilReset(Integer id, String password){
+        RegisteredUsers user = getUserById(id);
+        if(user != null){
             user.setPassword(passwordEncoder.encode(password));
             registeredUsersRepository.saveAndFlush(user);
             return true;
         }
+        else{
+            return false;
+        }
+        
     }
+
+
+
+
 
 }

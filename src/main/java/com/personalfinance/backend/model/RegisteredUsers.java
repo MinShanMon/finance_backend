@@ -44,7 +44,7 @@ public class RegisteredUsers {
     @Email(message = "Email should be valid")
     @Size(max = 200)
     @Pattern(regexp=".+@.+\\..+", message = "Wrong email!")
-    @Column(name = "UserEmail", columnDefinition = "nvarchar(200) not null")
+    @Column(name = "UserEmail", columnDefinition = "nvarchar(200)", nullable = true)
     private String email;
 
     @Column(name = "UserPassword", nullable = true)

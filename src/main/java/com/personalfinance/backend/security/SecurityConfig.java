@@ -41,10 +41,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers("/api/custom/login/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/user/loginWithFb/**").permitAll();
         http.authorizeRequests().antMatchers("/api/user/register/**").permitAll();
         http.authorizeRequests().antMatchers("/api/user/sentOTPByEmail/**").permitAll();
         http.authorizeRequests().antMatchers("/api/user/addSessionAdmin/**").hasAnyAuthority("Admin");
-        http.authorizeRequests().anyRequest().permitAll();        
+        http.authorizeRequests().anyRequest().authenticated();        
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new AuthorizationCustom(), UsernamePasswordAuthenticationFilter.class);
     }

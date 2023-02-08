@@ -94,11 +94,14 @@ public class RegisteredUsersController {
     }
 
     @GetMapping("/user/deleteToken")
-    public ResponseEntity<Long> deleteToken(@RequestParam String email){
+    public ResponseEntity<Long> deleteToken(@RequestParam Integer id, HttpServletRequest request){
         try{
-            Long id = 1L;
-            userService.deleteToken(email);
-            return new ResponseEntity<>(id, HttpStatus.OK);
+            Long ids = 1L;
+            String authorizationHeader = request.getHeader(AUTHORIZATION);
+            String token = authorizationHeader.substring("Bearer ".length());  
+            ckToken(id, token);
+            userService.deleteToken(id);
+            return new ResponseEntity<>(ids, HttpStatus.OK);
         }
         catch(Exception e){
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -106,17 +109,16 @@ public class RegisteredUsersController {
     }
 
     @GetMapping("/user/checkToken")
-    public ResponseEntity<Long> checkToken(@RequestParam("email") String email, HttpServletRequest request) {
+    public ResponseEntity<Long> checkToken(@RequestParam("id") Integer id, HttpServletRequest request) {
         
         try {
-            String utk = userService.getToken(email);
-            Long id = 1L;
+            String utk = userService.getToken(id);
+            Long ids = 1L;
             String authorizationHeader = request.getHeader(AUTHORIZATION);
             String token = authorizationHeader.substring("Bearer ".length());   
             if (utk.equals(token)) {
-                return new ResponseEntity<>(id, HttpStatus.OK);
+                return new ResponseEntity<>(ids, HttpStatus.OK);
             }
-
             else{
                 throw new Exception();
             }
@@ -126,9 +128,40 @@ public class RegisteredUsersController {
         }
     }
 
+    // @GetMapping("/user/checkTokenAndroid")
+    // public ResponseEntity<Long> checkFbToken(@RequestParam("id") Integer id, HttpServletRequest request){
+
+    //     try{
+    //         String utk = userService.getTokenById(id);
+    //         Long ids = 1L;
+    //         String authorizationHeader = request.getHeader(AUTHORIZATION);
+    //         String token = authorizationHeader.substring("Bearer ".length()); 
+    //         if(utk.equals(token)){
+    //             return new ResponseEntity<>(ids, HttpStatus.OK);
+    //         }
+    //         else{
+    //             throw new Exception();
+    //         }
+    //     }
+    //     catch(Exception e){
+    //         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+    //     }
+    // }
+
+    public void ckToken(Integer id, String token) throws Exception{
+        String utk = userService.getToken(id);
+        if(utk.equals(token)){
+            return;
+        }
+        else{
+            throw new Exception();
+        }
+    }
+
     @GetMapping("/token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws StreamWriteException, DatabindException, IOException{
         String authorizationHeader = request.getHeader(AUTHORIZATION);
+
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
             try{
                 String refresh_token = authorizationHeader.substring("Bearer ".length());
@@ -171,9 +204,45 @@ public class RegisteredUsersController {
     public ResponseEntity<RegisteredUsers> registerUserAccount(@RequestBody RegisteredUsers ruser){
 
         try{
+            RegisteredUsers userck = userService.findByEmail(ruser.getEmail());
+            if(userck != null){
+                throw new Exception();
+            }
             RegisteredUsers user =  userService.registerUserAccount(ruser);
 
             return new ResponseEntity<>(user, HttpStatus.CREATED);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/user/loginWithFb")
+    public ResponseEntity<RegisteredUsers> registerFbUserAccount(@RequestBody RegisteredUsers ruser, HttpServletRequest request, HttpServletResponse response){
+        try{
+            String hex = userService.asciiToHex(ruser.getFbid());
+            RegisteredUsers dbUser = userService.findByFbid(hex);
+            if(dbUser != null){
+                Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+                String access_token = JWT.create()
+                .withSubject(dbUser.getEmail())
+                .withIssuer(request.getRequestURL().toString())
+                .withClaim("roles", dbUser.getRoleSet().stream().map(Role::getName).collect(Collectors.toList()))
+                .sign(algorithm);
+                userService.saveFbToken(hex, access_token);
+                return new ResponseEntity<>(dbUser, HttpStatus.OK);
+            }
+            else{
+                RegisteredUsers saveUser = userService.registerFacebook(ruser);
+                Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+                String access_token = JWT.create()
+                .withSubject(saveUser.getEmail())
+                .withIssuer(request.getRequestURL().toString())
+                .withClaim("roles", saveUser.getRoleSet().stream().map(Role::getName).collect(Collectors.toList()))
+                .sign(algorithm);
+                userService.saveFbToken(hex, access_token);
+                return new ResponseEntity<>(saveUser, HttpStatus.CREATED);
+            }
         }
         catch(Exception e){
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -186,14 +255,22 @@ public class RegisteredUsersController {
         try{
             RegisteredUsers user = userService.findByEmail(email);
             if(user == null){
-                throw new ResourceNotFoundException();
+                // Map<String, String> status = new HashMap<>();
+                // status.put("status", "400");
+                // response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                // new ObjectMapper().writeValue(response.getOutputStream(), status);
+                Token tokenss = new Token();
+                tokenss.setAccess_token("400");
+                response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                new ObjectMapper().writeValue(response.getOutputStream(), tokenss);
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
 
             userService.sendEmail(email);
             Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
             String access_token = JWT.create()
                 .withSubject(user.getEmail())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 5 *60 *1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 15 *60 *1000))
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles", user.getRoleSet().stream().map(Role::getName).collect(Collectors.toList()))
                 .sign(algorithm);
@@ -218,74 +295,133 @@ public class RegisteredUsersController {
     }
 
     @GetMapping("/user/otpverify")
-    public ResponseEntity<Long> verifyOTP(@RequestParam String email, @RequestParam String otp, HttpServletRequest request){
+    public ResponseEntity<Long> verifyOTP(@RequestParam String email, @RequestParam String otp, HttpServletRequest request, HttpServletResponse response){
         try{
-
-            String utk = userService.getToken(email);            
+            String utk = userService.getTokenByEmail(email);            
             String authorizationHeader = request.getHeader(AUTHORIZATION);
-            String token = authorizationHeader.substring("Bearer ".length());   
+            String token = authorizationHeader.substring("Bearer ".length());
+            
+            
+            Token tokenss = new Token();
             if (!utk.equals(token)){
                 throw new Exception();
             }
             Integer i = userService.validateOTP(email, otp);
-            if(i == 3){
-                throw new ForbiddenException();
-            }
-            if(i == 2){
-                throw new TimeOutException();
-            }
-            if(i == 1){
-                throw new ResourceNotFoundException();
-            }
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch(ForbiddenException e){
-            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-        }
-        catch(TimeOutException e){
-            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-        }
-        catch(ResourceNotFoundException e){
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
-        catch(Exception e){
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+            //empty user
+            if(i == 0){
+                
+                RegisteredUsers user = userService.findByEmail(email);
+                Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+                String access_token = JWT.create()
+                .withSubject(user.getEmail())
+                .withIssuer(request.getRequestURL().toString())
+                .withClaim("roles", user.getRoleSet().stream().map(Role::getName).collect(Collectors.toList()))
+                .sign(algorithm);
 
-    @GetMapping("/user/checkstatus")
-    public ResponseEntity<Long> checkStatus(@RequestParam String email, HttpServletRequest request){
-        try{
-            boolean status = userService.checkStatus(email);
-            if(status){
-                return new ResponseEntity<>(HttpStatus.OK);
+                
+                tokenss.setRefresh_token(access_token);
+                tokenss.setStatus("0");
+
+                userService.saveToken(email, access_token);
+                // throw new ForbiddenException();
+            }
+            //otp timeout
+            else if(i == 2){
+                tokenss.setStatus("2");
+                // throw new TimeOutException();
+            }
+            //incorrect otp
+            else if(i == 1){
+                tokenss.setStatus("1");
+                // throw new ResourceNotFoundException();
             }
             else{
-                throw new TimeOutException();
+                tokenss.setStatus("3");
             }
-        }
-        catch(TimeOutException e){
-            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+            
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            new ObjectMapper().writeValue(response.getOutputStream(), tokenss);
+
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch(Exception e){
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    // @GetMapping("/user/checkstatus")
+    // public ResponseEntity<Long> checkStatus(@RequestParam String email, HttpServletRequest request){
+    //     try{
+    //         String authorizationHeader = request.getHeader(AUTHORIZATION);
+    //         String token = authorizationHeader.substring("Bearer ".length());  
+    //         ckToken(email, token);
+    //         boolean status = userService.checkStatus(email);
+    //         if(status){
+    //             return new ResponseEntity<>(HttpStatus.OK);
+    //         }
+    //         else{
+    //             throw new TimeOutException();
+    //         }
+    //     }
+    //     catch(TimeOutException e){
+    //         return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+    //     }
+    //     catch(Exception e){
+    //         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+    //     }
+    // }
+
     @PostMapping("/user/resetpassword")
-    public ResponseEntity<Long> resetPassword(@RequestParam String email, @RequestParam String password, HttpServletRequest request){
+    public ResponseEntity<Long> resetPassword(@RequestParam String email, @RequestParam String password, @RequestParam String otp, HttpServletRequest request, HttpServletResponse response){
         try{
-            String utk = userService.getToken(email);
+            String utk = userService.getTokenByEmail(email);
             String authorizationHeader = request.getHeader(AUTHORIZATION);
             String token = authorizationHeader.substring("Bearer ".length());   
             if (utk.equals(token)) {
-                boolean pass = userService.resetPassword(email, password);
+                boolean pass = userService.resetPassword(email, password, otp);
                 if(pass){
+                    Map<String, String> statuss = new HashMap<>();
+                    statuss.put("status", "0");
+                    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                    new ObjectMapper().writeValue(response.getOutputStream(), statuss);
                     return new ResponseEntity<>(HttpStatus.OK);
                 }
                 else{
                     throw new Exception();
                 }
+            }
+            else{
+                throw new Exception();
+            }
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/user/edit/profile")
+    public ResponseEntity<RegisteredUsers> editProfile(@RequestBody RegisteredUsers user, HttpServletRequest request){
+        try{
+            String authorizationHeader = request.getHeader(AUTHORIZATION);
+            String token = authorizationHeader.substring("Bearer ".length());  
+            ckToken(user.getId(), token);
+            RegisteredUsers updateUser = userService.editProfile(user);
+            return new ResponseEntity<>(updateUser, HttpStatus.OK);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/user/edit/password")
+    public ResponseEntity<Long> editPassword(@RequestParam("id") Integer id, @RequestParam("password") String password, HttpServletRequest request){
+        try{
+            String authorizationHeader = request.getHeader(AUTHORIZATION);
+            String token = authorizationHeader.substring("Bearer ".length());  
+            ckToken(id, token);
+            boolean check = userService.editProfilReset(id, password);
+            if(check){
+                return new ResponseEntity<>(1L, HttpStatus.OK);
             }
             else{
                 throw new Exception();

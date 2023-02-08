@@ -2,6 +2,8 @@ package com.personalfinance.backend.filter;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
@@ -68,10 +70,27 @@ public class AuthenticationCustom extends UsernamePasswordAuthenticationFilter{
         .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
         .withIssuer(request.getRequestURL().toString())
         .sign(algorithm);
+
         Token tokenss = new Token();
         tokenss.setAccess_token(access_token);
+
         tokenss.setRefresh_token(refresh_token);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), tokenss);
     }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+            AuthenticationException failed) throws IOException, ServletException {
+        // TODO Auto-generated method stub
+        // super.unsuccessfulAuthentication(request, response, failed);
+
+        Token tokenss = new Token();
+        tokenss.setAccess_token("400");
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        new ObjectMapper().writeValue(response.getOutputStream(), tokenss);
+        
+    }
+
+    
 }
