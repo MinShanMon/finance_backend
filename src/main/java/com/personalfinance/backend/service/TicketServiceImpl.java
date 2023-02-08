@@ -35,8 +35,7 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public Ticket updateTik(Ticket updateTik,Integer id){
        Ticket tik = tikRepository.findById(id).get();
-        if(tik != null &&
-        tik.getTikStatus() == TicketStatusEnum.OPEN){
+        if(tik != null ){
             tik.setReply(updateTik.getReply());
             tik.setTikStatus(updateTik.getTikStatus());
             tik.setReply_dateTime(LocalDateTime.now());

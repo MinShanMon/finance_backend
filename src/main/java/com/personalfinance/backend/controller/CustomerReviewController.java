@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,7 +15,7 @@ import com.personalfinance.backend.service.ReviewService;
 
 @RestController
 
-@RequestMapping("/customer")
+@RequestMapping("/admin")
 public class CustomerReviewController {
     
     @Autowired
@@ -24,14 +26,14 @@ public class CustomerReviewController {
         return new ResponseEntity<>(rivService.getOneReview(id),HttpStatus.OK);
     }
 
-    // @PutMapping("/ticket")
-    // public ResponseEntity<Ticket> editReply(@RequestBody Ticket tik){   
-    //     try {
-    //         Ticket savedTik = tikService.updateTik(tik, tik.getId());
-    //         return new ResponseEntity<>(savedTik, HttpStatus.CREATED);
-    //     } catch (Exception e) {
-    //         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    //     }
-    // }
+    @PutMapping("/rate")
+    public ResponseEntity<Enquiry> editReview(@RequestBody Enquiry enq){   
+        try {
+            Enquiry savedEnq = rivService.updateReview(enq, enq.getId());
+            return new ResponseEntity<>(savedEnq, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
   

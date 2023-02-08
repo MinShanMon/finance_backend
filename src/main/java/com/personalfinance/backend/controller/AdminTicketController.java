@@ -47,16 +47,6 @@ public class AdminTicketController {
         return new ResponseEntity <>(enqService.getClosedEnquiry(), HttpStatus.OK);
     }
 
-    // @PostMapping("/ticket")
-    // public ResponseEntity<Ticket> saveTicket(@RequestBody Ticket tik) {
-    //     try {
-    //         Ticket savedTik = tikService.saveTik(tik);
-    //         return new ResponseEntity<>(savedTik, HttpStatus.CREATED);
-    //     } catch (Exception e) {
-    //         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-    //     }
-    // }
-
     @GetMapping("/view/{id}")
     public ResponseEntity <Enquiry> getDetail(@PathVariable int id){
         return new ResponseEntity<>(enqService.getOneEnquiry(id),HttpStatus.OK);
@@ -82,7 +72,6 @@ public class AdminTicketController {
         //     return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Email Sending Fails");
         // }
     }
-
     
     @PostMapping("/sendreview/{id}")
     public ResponseEntity<?> closeTicket (@PathVariable int id){

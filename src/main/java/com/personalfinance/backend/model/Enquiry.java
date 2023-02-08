@@ -54,13 +54,15 @@ public class Enquiry {
     @Column(nullable = true)
     private int rating;
 
+    @Column(nullable = true)
+    private String comment;
     
     @OneToOne
     @JoinColumn(name="ticket_id")
     private Ticket ticket;
 
     public Enquiry(EnquiryTypeEnum enquiryType,SalutationEnum title, String name,String email,
-    String phoneNum,String question, LocalDateTime dateTime,int rating,Ticket ticket){ 
+    String phoneNum,String question, LocalDateTime dateTime,int rating,String comment,Ticket ticket){ 
 
         this.enquiryType= enquiryType;
         this.title = title;
@@ -70,6 +72,7 @@ public class Enquiry {
         this.question = question;
         this.enquiry_dateTime = dateTime;
         this.rating = rating;
+        this.comment = comment;
         this.ticket = ticket;
     }
 }

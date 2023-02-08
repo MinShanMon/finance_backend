@@ -41,24 +41,24 @@ public class BackendApplication {
 
 
 			Enquiry enq1 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.PRODUCT, SalutationEnum.MS,"Adele Tan",
-			"blissyetbloom@gmail.com", "12345678", "how to buy fet",LocalDateTime.now(), 4,tik1));
+			"blissyetbloom@gmail.com", "12345678", "how to buy fet",LocalDateTime.now(), 4,"good",tik1));
 			enqRepository.saveAndFlush(enq1);
 
 			Enquiry enq2 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.FEEDBACK, SalutationEnum.MRS, "KIM Jean",
-			"456@gmail.com", "556789", "Good service", LocalDateTime.now().minusDays(3),5,tik2));
+			"blissyetbloom@gmail.com", "556789", "Good service", LocalDateTime.now().minusDays(3),5,"good",tik2));
 			enqRepository.saveAndFlush(enq2);
 			
 			
 			Enquiry enq3 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.ACCOUNT,SalutationEnum.MR, "JOHN Tan",
-			"789@gmail.com", "000000", "how to register account",LocalDateTime.now().minusDays(8), 3,tik3));
+			"blissyetbloom@gmail.com", "000000", "how to register account",LocalDateTime.now().minusDays(8), 3,"good",tik3));
 			enqRepository.saveAndFlush(enq3);
 
 			Enquiry enq4 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.FEEDBACK, SalutationEnum.MRS, "KIM Jean",
-			"456@gmail.com", "556789", "bad service", LocalDateTime.now().minusDays(10),1,tik4));
+			"456@gmail.com", "556789", "bad service", LocalDateTime.now().minusDays(10),1,"good",tik4));
 			enqRepository.saveAndFlush(enq4);
 
 			Enquiry enq5 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.PRODUCT, SalutationEnum.MS,"Davie Hans",
-			"000@gmail.com", "000000", "how to buy fet",LocalDateTime.now().minusDays(20).minusYears(2), 4,tik5));
+			"000@gmail.com", "000000", "how to buy fet",LocalDateTime.now().minusDays(20).minusYears(2), 4,"good",tik5));
 			enqRepository.saveAndFlush(enq5);
 			
 		};
