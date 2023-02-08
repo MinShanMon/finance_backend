@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.personalfinance.backend.Models.Bank;
-import com.personalfinance.backend.Models.FixedDeposits;
 import com.personalfinance.backend.Service.BankService;
 
 @RestController

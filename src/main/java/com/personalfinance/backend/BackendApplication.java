@@ -1,10 +1,6 @@
 package com.personalfinance.backend;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,7 +10,6 @@ import com.personalfinance.backend.Models.Bank;
 import com.personalfinance.backend.Models.FixedDeposits;
 import com.personalfinance.backend.Repository.BankRepository;
 import com.personalfinance.backend.Repository.FixedDepositsRepository;
-import com.personalfinance.backend.Service.FixedDepositsService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @SpringBootApplication
