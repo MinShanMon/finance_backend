@@ -40,7 +40,7 @@ public class Transaction {
 
     @ManyToOne
     @NotNull
-    private RegUser user;
+    private RegisteredUsers user;
 
     public Transaction(String title, String description, LocalDate date, String category, double amount) {
         this.title = title;

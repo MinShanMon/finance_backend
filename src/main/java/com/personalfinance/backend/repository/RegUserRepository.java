@@ -1,10 +1,9 @@
-package com.personalfinance.backend.repository;
+// package com.personalfinance.backend.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.personalfinance.backend.model.RegUser;
+// import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface RegUserRepository extends JpaRepository<RegUser, Long> {
+
+// public interface RegUserRepository extends JpaRepository<RegUser, Long> {
     
-}
+// }

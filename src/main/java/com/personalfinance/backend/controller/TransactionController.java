@@ -3,9 +3,10 @@ package com.personalfinance.backend.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.personalfinance.backend.model.RegUser;
+import com.personalfinance.backend.comparator.TransactionDateComparator;
+import com.personalfinance.backend.model.RegisteredUsers;
 import com.personalfinance.backend.model.Transaction;
-import com.personalfinance.backend.service.RegUserService;
+import com.personalfinance.backend.service.RegisteredUsersService;
 import com.personalfinance.backend.service.TransactionService;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public class TransactionController {
     TransactionService transactionSvc;
 
     @Autowired
-    RegUserService regUserService;
+    RegisteredUsersService regUserService;
 
     @GetMapping("/transaction/{userId}")
     public ResponseEntity<List<Transaction>> getAllTransactionsByUserId(@PathVariable("userId") int userId,
@@ -65,7 +66,7 @@ public class TransactionController {
         try {
             Transaction createdTransaction = new Transaction(transaction.getTitle(), transaction.getDescription(),
                     transaction.getDate(), transaction.getCategory(), transaction.getAmount());
-            RegUser user = regUserService.getUserById(userId);
+                    RegisteredUsers user = regUserService.getUserById(userId);
             createdTransaction.setUser(user);
             transactionSvc.addTransaction(createdTransaction);
             return new ResponseEntity<>(createdTransaction, HttpStatus.CREATED);
