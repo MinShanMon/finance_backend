@@ -3,6 +3,7 @@ package com.personalfinance.backend.Models;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,8 +31,10 @@ public class Bank {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long b_id;
 
+    
     private String bankName;
 
+   
     private String bankLink;
 
     @OneToMany(mappedBy = "fd_bank", cascade = CascadeType.ALL)

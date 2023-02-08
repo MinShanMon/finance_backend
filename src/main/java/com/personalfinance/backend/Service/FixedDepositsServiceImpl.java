@@ -18,6 +18,9 @@ public class FixedDepositsServiceImpl implements FixedDepositsService{
     @Autowired
     FixedDepositsRepository fixedDepositsRepository;
 
+    @Autowired
+    BankService bankService;
+
 
     @Override
     public FixedDeposits addDeposists(FixedDeposits fixedDeposits){
@@ -45,6 +48,8 @@ public class FixedDepositsServiceImpl implements FixedDepositsService{
         if (Objects.nonNull(fixedDeposits.getInterestRate())) {
             currentFixedDeposits.setInterestRate(fixedDeposits.getInterestRate());
         }
+
+        currentFixedDeposits.setFd_bank(bankService.findBankById(fixedDeposits.getFd_bank().getB_id()).get());
 
 
         LocalDateTime now = LocalDateTime.now();  

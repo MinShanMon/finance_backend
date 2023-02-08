@@ -35,10 +35,7 @@ public class BankController {
             List<Bank> bankList = new ArrayList<Bank>();
             bankList = bankService.findAllBank();
 
-            if(bankList.isEmpty()){
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
+          
             return new ResponseEntity<>(bankList, HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -67,10 +64,10 @@ public class BankController {
     }
 
     //edit bank
-    @PutMapping("/editbank/{id}")
-    public ResponseEntity<Bank> editBank(@RequestBody Bank bank,@PathVariable("id") Long id) {
+    @PutMapping("/editbank/")
+    public ResponseEntity<Bank> editBank(@RequestBody Bank bank) {
         try {
-            Bank editBank = bankService.editBank(bank, id);
+            Bank editBank = bankService.editBank(bank, bank.getB_id());
             return new ResponseEntity<>(editBank, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

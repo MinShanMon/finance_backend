@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,10 +47,21 @@ public class FixedDepositsController {
         }
     }
 
-    @PutMapping("/editfixed/{id}")
-    public ResponseEntity<FixedDeposits> editBank(@RequestBody FixedDeposits fixedDeposits,@PathVariable("id") Long id) {
+// //edit bank
+// @PutMapping("/editbank/")
+// public ResponseEntity<Bank> editBank(@RequestBody Bank bank) {
+//     try {
+//         Bank editBank = bankService.editBank(bank, bank.getB_id());
+//         return new ResponseEntity<>(editBank, HttpStatus.CREATED);
+//     } catch (Exception e) {
+//         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+//     }
+// }
+
+    @PutMapping("/editfixed/")
+    public ResponseEntity<FixedDeposits> editBank(@RequestBody FixedDeposits fixedDeposits) {
         try {
-            FixedDeposits editBank = fixedDepositsService.editDeposits(fixedDeposits, id);
+            FixedDeposits editBank = fixedDepositsService.editDeposits(fixedDeposits, fixedDeposits.getF_id());
             return new ResponseEntity<>(editBank, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -78,9 +90,7 @@ public class FixedDepositsController {
             List<FixedDeposits> f_DepositsList = new ArrayList<FixedDeposits>();
             f_DepositsList = fixedDepositsService.findAllDepositsDependsOnBankId(id);
 
-            if(f_DepositsList.isEmpty()){
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+           
 
             return new ResponseEntity<>(f_DepositsList, HttpStatus.OK);
         }catch(Exception e){
@@ -88,6 +98,8 @@ public class FixedDepositsController {
         }
     }
 
+
+    @CrossOrigin
     @GetMapping("/fixeds")
     public ResponseEntity<List<FixedDeposits>> getAllDeposits(){
         
@@ -95,17 +107,11 @@ public class FixedDepositsController {
             List<FixedDeposits> f_DepositsList = new ArrayList<FixedDeposits>();
             f_DepositsList = fixedDepositsService.findAllDeposits();
 
-            if(f_DepositsList.isEmpty()){
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
+          
             return new ResponseEntity<>(f_DepositsList, HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-
-    
-    
 }

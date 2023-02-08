@@ -2,7 +2,6 @@ package com.personalfinance.backend.Models;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,13 +18,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name = "fixed_deposits")
-public class FixedDeposits {
+@Table(name = "fixed_deposits_recode")
+public class FixedDepositsRecords {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long f_id;
-
+    private long fr_id;
 
     private int tenure;
 
@@ -35,23 +33,24 @@ public class FixedDeposits {
 
     private double interestRate;
 
-    private LocalDateTime updateDate;
+    private int month;
 
-    @ManyToOne
-    @JoinColumn(name = "bank_id")
-    private Bank fd_bank;
+    private int year;
+
+    private String bankName;
     
 
 
-    public FixedDeposits(int tenure, int minAmount, int maxAmount, double interestRate, LocalDateTime updateDate, Bank fd_bank){
+    public FixedDepositsRecords(int tenure, int minAmount, int maxAmount, double interestRate, int month, int year, String bankName){
          
 
         this.tenure = tenure;
         this.minAmount = minAmount;
         this.maxAmount = maxAmount;
         this.interestRate = interestRate;
-        this.updateDate = updateDate;
-        this.fd_bank = fd_bank;
+        this.month = month;
+        this.year = year;
+        this.bankName = bankName;
 
     }
 }
