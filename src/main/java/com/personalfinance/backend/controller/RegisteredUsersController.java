@@ -117,7 +117,6 @@ public class RegisteredUsersController {
             String token = authorizationHeader.substring("Bearer ".length());   
             Token tokens = new Token();
             if (utk.equals(token)) {
-                
                 tokens.setStatus("200");
                 return new ResponseEntity<>(tokens, HttpStatus.OK);
             }

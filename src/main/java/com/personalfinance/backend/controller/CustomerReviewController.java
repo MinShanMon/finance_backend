@@ -15,7 +15,7 @@ import com.personalfinance.backend.service.ReviewService;
 
 @RestController
 
-@RequestMapping("/admin")
+@RequestMapping("/api/customer")
 public class CustomerReviewController {
     
     @Autowired
