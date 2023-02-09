@@ -36,10 +36,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
+        
         AuthenticationCustom customAuthenticationFilter = new AuthenticationCustom(authenticationManagerBean());
         customAuthenticationFilter.setFilterProcessesUrl("/api/custom/login");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        
         http.authorizeRequests().antMatchers("/api/custom/login/**").permitAll();
         // http.authorizeRequests().antMatchers("/api/admin/**").permitAll();
         http.authorizeRequests().antMatchers("/api/user/loginWithFb/**").permitAll();
@@ -47,8 +49,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         http.authorizeRequests().antMatchers("/api/customer/rate/**").permitAll();
         http.authorizeRequests().antMatchers("/api/user/register/**").permitAll();
         http.authorizeRequests().antMatchers("/api/user/sentOTPByEmail/**").permitAll();
-        http.authorizeRequests().antMatchers("/api/user/addSessionAdmin/**").hasAnyAuthority("Admin");
-        http.authorizeRequests().anyRequest().authenticated();        
+        http.authorizeRequests().antMatchers("/api/user/addSessionAdmin/**").hasAnyAuthority("Admin");  
+        http.authorizeRequests().anyRequest().permitAll();   
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new AuthorizationCustom(), UsernamePasswordAuthenticationFilter.class);
     }
