@@ -43,6 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         http.authorizeRequests().antMatchers("/api/custom/login/**").permitAll();
         // http.authorizeRequests().antMatchers("/api/admin/**").permitAll();
         http.authorizeRequests().antMatchers("/api/user/loginWithFb/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/customer/review/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/customer/rate/**").permitAll();
         http.authorizeRequests().antMatchers("/api/user/register/**").permitAll();
         http.authorizeRequests().antMatchers("/api/user/sentOTPByEmail/**").permitAll();
         http.authorizeRequests().antMatchers("/api/user/addSessionAdmin/**").hasAnyAuthority("Admin");

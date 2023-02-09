@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.personalfinance.backend.model.Bank;
-import com.personalfinance.backend.model.FixedDeposits;
 import com.personalfinance.backend.repository.BankRepository;
 
 
