@@ -236,7 +236,7 @@ public class RegisteredUsersController {
                 userService.saveFbToken(hex, access_token);
                 return new ResponseEntity<>(dbUser, HttpStatus.OK);
             }
-            else{
+            else {
                 RegisteredUsers saveUser = userService.registerFacebook(ruser);
                 Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
                 String access_token = JWT.create()
