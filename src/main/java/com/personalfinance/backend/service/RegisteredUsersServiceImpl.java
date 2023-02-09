@@ -2,21 +2,14 @@ package com.personalfinance.backend.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import java.io.UnsupportedEncodingException;
 import javax.mail.MessagingException;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Random;
-
-import javax.transaction.Transactional;
-import javax.validation.constraints.Email;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,8 +19,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import javax.mail.internet.MimeMessage;
-import javax.persistence.EnumType;
-
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
@@ -39,9 +30,6 @@ import com.personalfinance.backend.model.RegisteredUsers;
 import com.personalfinance.backend.model.Role;
 import com.personalfinance.backend.model.StatusEnum;
 import com.personalfinance.backend.repository.RegisteredUsersRepository;
-import com.personalfinance.backend.repository.RoleRepository;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
