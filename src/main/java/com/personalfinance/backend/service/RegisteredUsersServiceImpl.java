@@ -164,7 +164,7 @@ public class RegisteredUsersServiceImpl implements RegisteredUsersService, UserD
 
 		helper.setText(content, true);
 
-		// mailSender.send(message);
+		mailSender.send(message);
 
 		System.out.println("email was sent");
     }
@@ -315,7 +315,6 @@ public class RegisteredUsersServiceImpl implements RegisteredUsersService, UserD
             dbUser.setEmail(user.getEmail());
             
         }
-
         dbUser.setFullName(user.getFullName());
         registeredUsersRepository.saveAndFlush(dbUser);
         return dbUser;

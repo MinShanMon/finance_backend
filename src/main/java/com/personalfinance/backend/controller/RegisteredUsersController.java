@@ -108,17 +108,22 @@ public class RegisteredUsersController {
     }
 
     @GetMapping("/user/checkToken")
-    public ResponseEntity<Long> checkToken(@RequestParam("id") Integer id, HttpServletRequest request) {
+    public ResponseEntity<Token> checkToken(@RequestParam("id") Integer id, HttpServletRequest request) {
         
         try {
             String utk = userService.getToken(id);
             Long ids = 1L;
             String authorizationHeader = request.getHeader(AUTHORIZATION);
             String token = authorizationHeader.substring("Bearer ".length());   
+            Token tokens = new Token();
             if (utk.equals(token)) {
-                return new ResponseEntity<>(ids, HttpStatus.OK);
+                
+                tokens.setStatus("200");
+                return new ResponseEntity<>(tokens, HttpStatus.OK);
             }
             else{
+                // tokens.setStatus("403");
+                // return new ResponseEntity<>(tokens, HttpStatus.FORBIDDEN);
                 throw new Exception();
             }
             // return new ResponseEntity<>(id, HttpStatus.OK);
@@ -348,27 +353,7 @@ public class RegisteredUsersController {
         }
     }
 
-    // @GetMapping("/user/checkstatus")
-    // public ResponseEntity<Long> checkStatus(@RequestParam String email, HttpServletRequest request){
-    //     try{
-    //         String authorizationHeader = request.getHeader(AUTHORIZATION);
-    //         String token = authorizationHeader.substring("Bearer ".length());  
-    //         ckToken(email, token);
-    //         boolean status = userService.checkStatus(email);
-    //         if(status){
-    //             return new ResponseEntity<>(HttpStatus.OK);
-    //         }
-    //         else{
-    //             throw new TimeOutException();
-    //         }
-    //     }
-    //     catch(TimeOutException e){
-    //         return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-    //     }
-    //     catch(Exception e){
-    //         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-    //     }
-    // }
+    
 
     @PostMapping("/user/resetpassword")
     public ResponseEntity<Long> resetPassword(@RequestParam String email, @RequestParam String password, @RequestParam String otp, HttpServletRequest request, HttpServletResponse response){
