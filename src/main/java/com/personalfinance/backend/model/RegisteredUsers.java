@@ -60,7 +60,7 @@ public class RegisteredUsers {
 	@Column(name = "otp_requested_time",nullable = true)
 	private Long otpReqTime;
 
-    @Column(name = "JwtToken", nullable = true)
+    @Column(name = "JwtToken", nullable = true, length = 3000)
     private String jwtToken;
 
     @OneToMany (mappedBy = "user")
