@@ -77,7 +77,7 @@ public class TicketServiceImpl implements TicketService {
             String subject = "Please rate our service -- FinanceManagementApp";
             String content = "Dear " + enq.getTitle()+". "+ enq.getName() + ",\n\n" 
             +"Please kindly review our service follows the link below:\n"
-            +"http://localhost/customer/review/"+enq.getId()+"\nWe value your feedback sincerely. Thanks a lot!"+
+            +"localhost/customer/review/"+enq.getId()+"\nWe value your feedback sincerely. Thanks a lot!"+
             "\n\nBest regards,\nFinancial Management Team";
 
         // Setting up necessary details
