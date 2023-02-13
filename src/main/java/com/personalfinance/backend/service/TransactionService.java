@@ -13,5 +13,5 @@ public interface TransactionService {
     public Transaction addTransaction(Transaction transaction);
     public Transaction updateTransaction(Transaction transaction);
     public boolean deleteTransactionById(long transactionId);
-    public Map<String, Float> getForecast(long userId);
+    public Map<String, Double> getSpendingForecast(long userId);
 }
