@@ -9,6 +9,7 @@ import com.personalfinance.backend.service.RegisteredUsersService;
 import com.personalfinance.backend.service.TransactionService;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,7 @@ public class TransactionController {
 
     @Autowired
     RegisteredUsersService regUserService;
+
 
     @GetMapping("/transaction/{userId}")
     public ResponseEntity<List<Transaction>> getAllTransactionsByUserId(@PathVariable("userId") int userId,
@@ -101,4 +103,10 @@ public class TransactionController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/forecast/{userId}")
+    public ResponseEntity<Map<String,Float>> getSpendingForecast(@PathVariable("userId") int userId) {
+        return new ResponseEntity<>(transactionSvc.getForecast(userId), HttpStatus.CREATED);
+    }
+    
 }

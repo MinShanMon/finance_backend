@@ -26,6 +26,13 @@ public class TicketServiceImpl implements TicketService {
  
     @Autowired 
     private JavaMailSender mailSender;
+
+    @Override
+    public Ticket addTik() {
+        Ticket newTik = new Ticket();
+        newTik.setTikStatus(TicketStatusEnum.OPEN);
+        return tikRepository.save(newTik);
+    }
  
     @Override
     public Ticket saveTik(Ticket tik) {
@@ -51,7 +58,7 @@ public class TicketServiceImpl implements TicketService {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             Enquiry enq = enqRepository.findById(id).get();
             String subject = "We have received your enquiry -- FinanceManagementApp";
-            String content = "Dear " + enq.getTitle()+". "+ enq.getName() + ",\n\n" 
+            String content = "Dear " + enq.getName() + ",\n\n" 
 	        +enq.getTicket().getReply()+"\n\nBest regards,\nFinancial Management Team";
  
             // Setting up necessary details
@@ -75,9 +82,9 @@ public class TicketServiceImpl implements TicketService {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             Enquiry enq = enqRepository.findById(id).get();
             String subject = "Please rate our service -- FinanceManagementApp";
-            String content = "Dear " + enq.getTitle()+". "+ enq.getName() + ",\n\n" 
+            String content = "Dear " + enq.getName() + ",\n\n" 
             +"Please kindly review our service follows the link below:\n"
-            +"http://localhost/customer/review/"+enq.getId()+"\nWe value your feedback sincerely. Thanks a lot!"+
+            +"localhost/customer/review/"+enq.getId()+"\nWe value your feedback sincerely. Thanks a lot!"+
             "\n\nBest regards,\nFinancial Management Team";
 
         // Setting up necessary details
