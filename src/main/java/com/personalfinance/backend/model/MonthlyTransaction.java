@@ -22,6 +22,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "monthlyTransaction")
+@Data
 public class MonthlyTransaction {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +37,6 @@ public class MonthlyTransaction {
   @Column(name = "date")
   private LocalDate date;
 
-  // Getters and setters for the properties
+  
 }
 
