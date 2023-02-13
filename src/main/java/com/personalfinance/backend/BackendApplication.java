@@ -111,7 +111,6 @@ public class BackendApplication {
 			Ticket tik5 = tikRepository.saveAndFlush(new Ticket("GOOD",TicketStatusEnum.CLOSED,LocalDateTime.now().minusDays(18)));
 			tikRepository.saveAndFlush(tik5);
 
-
 			Enquiry enq1 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.PRODUCT, SalutationEnum.MS,"Adele Tan",
 			"blissyetbloom@gmail.com", "12345678", "how to buy fet",LocalDateTime.now(), 4,"good",tik1));
 			enqRepository.saveAndFlush(enq1);
@@ -132,7 +131,6 @@ public class BackendApplication {
 			Enquiry enq5 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.PRODUCT, SalutationEnum.MS,"Davie Hans",
 			"000@gmail.com", "000000", "how to buy fet",LocalDateTime.now().minusDays(20).minusYears(2), 4,"good",tik5));
 			enqRepository.saveAndFlush(enq5);
-
 		};
 
 	}
