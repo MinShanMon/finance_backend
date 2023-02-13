@@ -9,12 +9,16 @@ import org.springframework.stereotype.Service;
 import com.personalfinance.backend.model.Enquiry;
 import com.personalfinance.backend.model.TicketStatusEnum;
 import com.personalfinance.backend.repository.EnquiryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 @Service
 public class EnquiryServiceImpl implements EnquiryService {
     @Resource
     private EnquiryRepository enqRepository;
+
+    @Autowired
+    private TicketService ticketService;
 
     @Override
     public List<Enquiry> getAllEnquiry(){
@@ -48,6 +52,12 @@ public class EnquiryServiceImpl implements EnquiryService {
         return enqRepository.getDetail(id);
         } 
         return enqRepository.getDetail(id);
+    }
+
+    @Override
+    public Enquiry submitEnquiry(Enquiry enquiry) {
+        enquiry.setTicket(ticketService.addTik());
+        return enqRepository.save(enquiry);
     }
 
 }

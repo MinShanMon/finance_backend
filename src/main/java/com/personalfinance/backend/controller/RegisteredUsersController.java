@@ -18,6 +18,7 @@ import com.personalfinance.backend.exception.ForbiddenException;
 import com.personalfinance.backend.exception.ResourceNotFoundException;
 import com.personalfinance.backend.model.RegisteredUsers;
 import com.personalfinance.backend.service.RegisteredUsersService;
+import com.personalfinance.backend.service.EnquiryService;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -33,6 +34,9 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 
 import com.personalfinance.backend.model.Role;
 import com.personalfinance.backend.model.Token;
+import com.personalfinance.backend.model.Enquiry;
+import com.personalfinance.backend.model.EnquiryDTO;
+import com.personalfinance.backend.model.EnquiryTypeEnum;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -46,6 +50,9 @@ public class RegisteredUsersController {
 
     @Autowired
     RegisteredUsersService userService;
+
+    @Autowired
+    EnquiryService enqService;
 
     @GetMapping("/user/addSessionAdmin")
     public ResponseEntity<RegisteredUsers> getAdminUserByEmail(@RequestParam("email") String email, HttpServletRequest request) throws ResourceNotFoundException{
@@ -413,5 +420,22 @@ public class RegisteredUsersController {
         catch(Exception e){
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PostMapping("user/enquiry")
+    public ResponseEntity<Boolean> submitEnquiry(@RequestBody EnquiryDTO enquiryDTO) {
+        try {
+            Enquiry enquiry = new Enquiry();
+            enquiry.setName(enquiryDTO.getFullName());
+            enquiry.setEmail(enquiryDTO.getEmail());
+            enquiry.setEnquiryType(EnquiryTypeEnum.valueOf(enquiryDTO.getEnquiryType().toUpperCase()));
+            enquiry.setQuestion(enquiryDTO.getQuestion());
+            enquiry.setEnquiry_dateTime(enquiryDTO.getEnquiryDateTime());
+            enqService.submitEnquiry(enquiry);
+            return new ResponseEntity<>(true, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 }

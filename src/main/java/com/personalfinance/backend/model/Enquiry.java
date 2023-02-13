@@ -35,10 +35,6 @@ public class Enquiry {
     @Enumerated(EnumType.STRING)
     private EnquiryTypeEnum enquiryType;
 
-    @Column(name="salutation",nullable = false, columnDefinition = "ENUM('MS','MRS','MDM','MR')")
-    @Enumerated(EnumType.STRING)
-    private SalutationEnum title;
-
     private String name;
 
     private String email;
@@ -51,21 +47,20 @@ public class Enquiry {
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm")
     private LocalDateTime enquiry_dateTime;
     
-    @Column(nullable = true)
+    @Column
     private int rating;
 
-    @Column(nullable = true)
+    @Column
     private String comment;
     
     @OneToOne
     @JoinColumn(name="ticket_id")
     private Ticket ticket;
 
-    public Enquiry(EnquiryTypeEnum enquiryType,SalutationEnum title, String name,String email,
+    public Enquiry(EnquiryTypeEnum enquiryType, String name,String email,
     String phoneNum,String question, LocalDateTime dateTime,int rating,String comment,Ticket ticket){ 
 
         this.enquiryType= enquiryType;
-        this.title = title;
         this.name = name;
         this.email = email;
         this.phoneNum = phoneNum;
@@ -75,5 +70,6 @@ public class Enquiry {
         this.comment = comment;
         this.ticket = ticket;
     }
+    
 }
 

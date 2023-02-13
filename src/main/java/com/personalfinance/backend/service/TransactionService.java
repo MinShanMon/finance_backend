@@ -1,6 +1,7 @@
 package com.personalfinance.backend.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.personalfinance.backend.model.Transaction;
 
@@ -12,4 +13,5 @@ public interface TransactionService {
     public Transaction addTransaction(Transaction transaction);
     public Transaction updateTransaction(Transaction transaction);
     public boolean deleteTransactionById(long transactionId);
+    public Map<String, Float> getForecast(long userId);
 }

@@ -1,11 +1,16 @@
 package com.personalfinance.backend.service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.Collections;
+import java.util.HashMap;
 
 import javax.persistence.NoResultException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.personalfinance.backend.model.Transaction;
 import com.personalfinance.backend.repository.TransactionRepository;
@@ -28,7 +33,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public List<Transaction> getAllTransactionsByUserIdAndMonth(int userId, Integer month) {
-        return transactionRepo.findAllTransactionsByUserId(userId);
+        return transactionRepo.findAllTransactionsByUserIdAndMonth(userId, month);
     }
 
     @Override
@@ -57,6 +62,18 @@ public class TransactionServiceImpl implements TransactionService {
             return false;
         }
 
+    }
+
+    @Override
+    public Map<String, Float> getForecast(long userId) {
+        final String API_URL = "http://localhost:5000/predict?userid=" + userId;
+        RestTemplate restTemplate = new RestTemplate();
+        Map<String, Map<String, Float>> predictionsJson = restTemplate.getForObject(API_URL, Map.class);
+        Map<String, Float> predictions = new HashMap<>();
+        predictionsJson.values().forEach( v -> {
+            predictions.putAll(v);
+         } );
+         return predictions;
     }
 
 }
