@@ -196,7 +196,7 @@ public class BackendApplication {
 		return new BCryptPasswordEncoder();
 	}
 
-	@Scheduled(cron = "0 */1 * * * ?")
+	@Scheduled(cron = "0 */5 * * * ?")
     private void updateMonthlyTransaction(){
         System.out.println("hello");
         monthlyTransactionService.updateMonthlyTransactions();
