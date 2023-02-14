@@ -34,6 +34,7 @@ public class MonthlyTransactionServiceImpl implements MonthlyTransactionService{
     List<Transaction> allTransactions = transactionRepository.findAll();
   
     Map<Integer, Map<LocalDate, Double>> userTransactions = allTransactions.stream()
+    .filter(t -> !t.getCategory().equalsIgnoreCase("income"))
     .collect(Collectors.groupingBy(transaction -> transaction.getUser().getId(),
         Collectors.groupingBy(transaction -> transaction.getDate().withDayOfMonth(1),
             Collectors.summingDouble(Transaction::getAmount))));
