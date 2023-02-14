@@ -8,5 +8,5 @@ import com.personalfinance.backend.model.FixedDeposits;
 
 public interface MonthlyTransactionService {
 
-  public void createMonthlyTransactionTable() ;
+  public void updateMonthlyTransactions() ;
 }

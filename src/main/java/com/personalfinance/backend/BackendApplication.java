@@ -13,7 +13,8 @@ import java.util.stream.Collectors;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -32,6 +33,7 @@ import com.personalfinance.backend.model.Transaction;
 import com.personalfinance.backend.repository.BankRepository;
 import com.personalfinance.backend.repository.EnquiryRepository;
 import com.personalfinance.backend.repository.FixedDepositsRepository;
+import com.personalfinance.backend.service.MonthlyTransactionService;
 import com.personalfinance.backend.service.RegisteredUsersService;
 import com.personalfinance.backend.service.RoleService;
 import com.personalfinance.backend.repository.MonthlyTransactionRepository;
@@ -43,11 +45,16 @@ import org.checkerframework.checker.units.qual.min;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @SpringBootApplication
+@EnableScheduling
 public class BackendApplication {
+
+	
+	
+	@Autowired
+    MonthlyTransactionService monthlyTransactionService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackendApplication.class, args);
-
 		// LocalDate date = LocalDate.now();
 		// System.out.print(date.getDayOfMonth());
 
@@ -67,7 +74,7 @@ public class BackendApplication {
 	public CommandLineRunner run(BankRepository bankRepository, FixedDepositsRepository fixedDepositsRepository,
 			RegisteredUsersService userService, RoleService roleService, EnquiryRepository enqRepository,
 			TicketRepository tikRepository, TransactionRepository transactionRepository,
-			MonthlyTransactionRepository monthlyTransactionRepo) {
+			MonthlyTransactionRepository monthlyTransactionRepo, MonthlyTransactionService monthlyTransactionService) {
 		return args -> {
 
 			Bank dbs = bankRepository.saveAndFlush(new Bank("dbs", "https://dbs.com"));
@@ -165,20 +172,21 @@ public class BackendApplication {
 				transactionRepository.save(randomTransaction);
 			}
 
-			List<Transaction> allTransactions = transactionRepository.findAll();
-			Map<Month, Double> mockTransactionsMap = allTransactions.stream().collect(
-				Collectors.groupingBy(t -> t.getDate().getMonth(),
-					Collectors.summingDouble(Transaction::getAmount))
-			);
-			mockTransactionsMap.forEach(
-				(month, total) -> {
-					MonthlyTransaction monthlyTransaction = new MonthlyTransaction();
-					monthlyTransaction.setAmount(total);
-					monthlyTransaction.setDate(LocalDate.of(2022, month, 1));
-					monthlyTransaction.setUserId(1);
-					monthlyTransactionRepo.save(monthlyTransaction);
-				}
-			);
+			// List<Transaction> allTransactions = transactionRepository.findAll();
+			// Map<Month, Double> mockTransactionsMap = allTransactions.stream().collect(
+			// 	Collectors.groupingBy(t -> t.getDate().getMonth(),
+			// 		Collectors.summingDouble(Transaction::getAmount))
+			// );
+			// mockTransactionsMap.forEach(
+			// 	(month, total) -> {
+			// 		MonthlyTransaction monthlyTransaction = new MonthlyTransaction();
+			// 		monthlyTransaction.setAmount(total);
+			// 		monthlyTransaction.setDate(LocalDate.of(2022, month, 1));
+			// 		monthlyTransaction.setUserId(1);
+			// 		monthlyTransactionRepo.save(monthlyTransaction);
+			// 	}
+			// );
+			
 		};
 
 	}
@@ -187,4 +195,10 @@ public class BackendApplication {
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+
+	@Scheduled(cron = "0 */1 * * * ?")
+    private void updateMonthlyTransaction(){
+        System.out.println("hello");
+        monthlyTransactionService.updateMonthlyTransactions();
+    }
 }
