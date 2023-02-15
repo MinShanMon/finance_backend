@@ -41,7 +41,7 @@ public class TransactionController {
                 List<Transaction> transactions = transactionSvc.getAllTransactionsByUserId(userId);
                 return new ResponseEntity<>(transactions, HttpStatus.OK);
             }
-            List<Transaction> transactions = transactionSvc.getAllTransactionsByUserIdAndMonth(userId, month);
+            List<Transaction> transactions = transactionSvc.getAllCurrentTransactionsByUserIdAndMonth(userId, month);
             return new ResponseEntity<>(transactions, HttpStatus.OK);
 
         } catch (Exception e) {

@@ -14,6 +14,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     @Query("SELECT t FROM Transaction t WHERE t.user.id = :userId ORDER BY t.date DESC")
     public List<Transaction> findAllTransactionsByUserId(int userId);
 
-    @Query("SELECT t FROM Transaction t WHERE t.user.id = :userId AND MONTH(t.date) = :month ORDER BY t.date DESC")
-    public List<Transaction> findAllTransactionsByUserIdAndMonth(@Param("userId") int userId, @Param("month") int month);
+    @Query("SELECT t FROM Transaction t WHERE t.user.id = :userId AND MONTH(t.date) = :month AND YEAR(t.date) = :year ORDER BY t.date DESC")
+    public List<Transaction> findAllCurrentTransactionsByUserIdAndMonth(@Param("userId") int userId, @Param("month") int month, @Param("year") int year);
 }

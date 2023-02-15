@@ -8,6 +8,7 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.springframework.boot.SpringApplication;
@@ -157,31 +158,33 @@ public class BackendApplication {
 			"000@gmail.com", "000000", "how to buy fet",LocalDateTime.now().minusDays(20).minusYears(2), 4,"good",tik5));
 			enqRepository.saveAndFlush(enq5);
 
-			for (int i = 0; i < 200; i++) {
+			for (int i = 0; i < 300; i++) {
 				Transaction randomTransaction = new Transaction();
 				randomTransaction.setAmount(Math.floor(Math.random() * 10000) / 100);
 				randomTransaction.setUser(osc);
 
 				long minEpochDay = 358 * 53 + 19;
-				long maxEpochDay = 358 * 54 + 25;
+				long maxEpochDay = 358 * 54 + 83;
 				long range = maxEpochDay - minEpochDay + 1;
 				LocalDate randomDate = LocalDate.ofEpochDay((long) (Math.random() * range) + minEpochDay);
 				randomTransaction.setDate(randomDate);
 				randomTransaction.setTitle("Feast");
-				randomTransaction.setCategory("Others");
+				String[] categories = new String[] {"Food", "Transport", "Others", "Income"};
+				Random random = new Random();
+				randomTransaction.setCategory(categories[random.nextInt(categories.length)]);
 				transactionRepository.save(randomTransaction);
 			}
 
 			// List<Transaction> allTransactions = transactionRepository.findAll();
-			// Map<Month, Double> mockTransactionsMap = allTransactions.stream().collect(
-			// 	Collectors.groupingBy(t -> t.getDate().getMonth(),
+			// Map<LocalDate, Double> mockTransactionsMap = allTransactions.stream().collect(
+			// 	Collectors.groupingBy(t -> t.getDate().withDayOfMonth(1),
 			// 		Collectors.summingDouble(Transaction::getAmount))
 			// );
 			// mockTransactionsMap.forEach(
 			// 	(month, total) -> {
 			// 		MonthlyTransaction monthlyTransaction = new MonthlyTransaction();
 			// 		monthlyTransaction.setAmount(total);
-			// 		monthlyTransaction.setDate(LocalDate.of(2022, month, 1));
+			// 		monthlyTransaction.setDate(month);
 			// 		monthlyTransaction.setUserId(1);
 			// 		monthlyTransactionRepo.save(monthlyTransaction);
 			// 	}

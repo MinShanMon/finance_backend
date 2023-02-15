@@ -3,6 +3,7 @@ package com.personalfinance.backend.service;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -33,8 +34,8 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<Transaction> getAllTransactionsByUserIdAndMonth(int userId, Integer month) {
-        return transactionRepo.findAllTransactionsByUserIdAndMonth(userId, month);
+    public List<Transaction> getAllCurrentTransactionsByUserIdAndMonth(int userId, Integer month) {
+        return transactionRepo.findAllCurrentTransactionsByUserIdAndMonth(userId, month, LocalDate.now().getYear());
     }
 
     @Override
