@@ -33,6 +33,9 @@ public class TicketServiceImpl implements TicketService {
         newTik.setTikStatus(TicketStatusEnum.OPEN);
         return tikRepository.save(newTik);
     }
+
+    private final static String LOCAL_URL = "http://localhost/customer/review/";
+    private final static String CLOUD_URL = "http://adteam3frontend-env.eba-9mzsispx.ap-northeast-1.elasticbeanstalk.com/";
  
     @Override
     public Ticket saveTik(Ticket tik) {
@@ -83,8 +86,8 @@ public class TicketServiceImpl implements TicketService {
             Enquiry enq = enqRepository.findById(id).get();
             String subject = "Please rate our service -- FinanceManagementApp";
             String content = "Dear " + enq.getName() + ",\n\n" 
-            +"Please kindly review our service follows the link below:"+"\n"
-            +"http://localhost:8083/customer/review/"+enq.getId()+"\nWe value your feedback sincerely. Thanks a lot!"+
+            +"Please kindly review our service follows the link below:\n"
+            + LOCAL_URL + enq.getId()+ "\nWe value your feedback sincerely. Thanks a lot!"+
             "\n\nBest regards,\nFinancial Management Team";
 
         // Setting up necessary details

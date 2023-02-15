@@ -41,7 +41,7 @@ public class TransactionController {
                 List<Transaction> transactions = transactionSvc.getAllTransactionsByUserId(userId);
                 return new ResponseEntity<>(transactions, HttpStatus.OK);
             }
-            List<Transaction> transactions = transactionSvc.getAllTransactionsByUserIdAndMonth(userId, month);
+            List<Transaction> transactions = transactionSvc.getAllCurrentTransactionsByUserIdAndMonth(userId, month);
             return new ResponseEntity<>(transactions, HttpStatus.OK);
 
         } catch (Exception e) {
@@ -105,8 +105,8 @@ public class TransactionController {
     }
 
     @GetMapping("/forecast/{userId}")
-    public ResponseEntity<Map<String,Float>> getSpendingForecast(@PathVariable("userId") int userId) {
-        return new ResponseEntity<>(transactionSvc.getForecast(userId), HttpStatus.CREATED);
+    public ResponseEntity<Map<String,Double>> getSpendingForecast(@PathVariable("userId") int userId) {
+        return new ResponseEntity<>(transactionSvc.getSpendingForecast(userId), HttpStatus.CREATED);
     }
     
 }

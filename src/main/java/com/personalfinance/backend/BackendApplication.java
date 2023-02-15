@@ -1,13 +1,21 @@
 package com.personalfinance.backend;
 
 import org.springframework.boot.CommandLineRunner;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.stream.Collectors;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -15,29 +23,39 @@ import com.personalfinance.backend.model.Bank;
 import com.personalfinance.backend.model.Enquiry;
 import com.personalfinance.backend.model.EnquiryTypeEnum;
 import com.personalfinance.backend.model.FixedDeposits;
+import com.personalfinance.backend.model.MonthlyTransaction;
 import com.personalfinance.backend.model.RegisteredUsers;
 import com.personalfinance.backend.model.Role;
 import com.personalfinance.backend.model.SalutationEnum;
 import com.personalfinance.backend.model.StatusEnum;
 import com.personalfinance.backend.model.Ticket;
 import com.personalfinance.backend.model.TicketStatusEnum;
+import com.personalfinance.backend.model.Transaction;
 import com.personalfinance.backend.repository.BankRepository;
 import com.personalfinance.backend.repository.EnquiryRepository;
 import com.personalfinance.backend.repository.FixedDepositsRepository;
+import com.personalfinance.backend.service.MonthlyTransactionService;
 import com.personalfinance.backend.service.RegisteredUsersService;
 import com.personalfinance.backend.service.RoleService;
+import com.personalfinance.backend.repository.MonthlyTransactionRepository;
 
 import com.personalfinance.backend.repository.TicketRepository;
+import com.personalfinance.backend.repository.TransactionRepository;
+
+import org.checkerframework.checker.units.qual.min;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @SpringBootApplication
+@EnableScheduling
 public class BackendApplication {
 
-
+	
+	
+	@Autowired
+    MonthlyTransactionService monthlyTransactionService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackendApplication.class, args);
-
 		// LocalDate date = LocalDate.now();
 		// System.out.print(date.getDayOfMonth());
 
@@ -54,8 +72,10 @@ public class BackendApplication {
 	}
 
 	@Bean
-	public CommandLineRunner run(BankRepository bankRepository, FixedDepositsRepository fixedDepositsRepository, 
-	RegisteredUsersService userService, RoleService roleService, EnquiryRepository enqRepository, TicketRepository tikRepository) {
+	public CommandLineRunner run(BankRepository bankRepository, FixedDepositsRepository fixedDepositsRepository,
+			RegisteredUsersService userService, RoleService roleService, EnquiryRepository enqRepository,
+			TicketRepository tikRepository, TransactionRepository transactionRepository,
+			MonthlyTransactionRepository monthlyTransactionRepo, MonthlyTransactionService monthlyTransactionService) {
 		return args -> {
 
 			Bank dbs = bankRepository.saveAndFlush(new Bank("dbs", "https://dbs.com"));
@@ -96,19 +116,24 @@ public class BackendApplication {
 					StatusEnum.ACTIVATED);
 			userService.saveUser(osc);
 
-			Ticket tik1 = tikRepository.saveAndFlush(new Ticket("http://www.google.com",TicketStatusEnum.OPEN, LocalDateTime.now()));
+			Ticket tik1 = tikRepository
+					.saveAndFlush(new Ticket("http://www.google.com", TicketStatusEnum.OPEN, LocalDateTime.now()));
 			tikRepository.saveAndFlush(tik1);
 
-			Ticket tik2 = tikRepository.saveAndFlush(new Ticket("FIND THIS",TicketStatusEnum.OPEN,LocalDateTime.now().minusDays(3)));
+			Ticket tik2 = tikRepository
+					.saveAndFlush(new Ticket("FIND THIS", TicketStatusEnum.OPEN, LocalDateTime.now().minusDays(3)));
 			tikRepository.saveAndFlush(tik2);
 
-			Ticket tik3 = tikRepository.saveAndFlush(new Ticket("CALL THIS NUMBER",TicketStatusEnum.CLOSED,LocalDateTime.now().minusDays(8)));
+			Ticket tik3 = tikRepository.saveAndFlush(
+					new Ticket("CALL THIS NUMBER", TicketStatusEnum.CLOSED, LocalDateTime.now().minusDays(8)));
 			tikRepository.saveAndFlush(tik3);
 
-			Ticket tik4 = tikRepository.saveAndFlush(new Ticket("GOOD",TicketStatusEnum.CLOSED,LocalDateTime.now().minusDays(10)));
+			Ticket tik4 = tikRepository
+					.saveAndFlush(new Ticket("GOOD", TicketStatusEnum.CLOSED, LocalDateTime.now().minusDays(10)));
 			tikRepository.saveAndFlush(tik4);
 
-			Ticket tik5 = tikRepository.saveAndFlush(new Ticket("GOOD",TicketStatusEnum.CLOSED,LocalDateTime.now().minusDays(18)));
+			Ticket tik5 = tikRepository
+					.saveAndFlush(new Ticket("GOOD", TicketStatusEnum.CLOSED, LocalDateTime.now().minusDays(18)));
 			tikRepository.saveAndFlush(tik5);
 
 			Enquiry enq1 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.PRODUCT, "Adele Tan",
@@ -131,6 +156,39 @@ public class BackendApplication {
 			Enquiry enq5 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.PRODUCT, "Davie Hans",
 			"000@gmail.com", "000000", "how to buy fet",LocalDateTime.now().minusDays(20).minusYears(2), 4,"good",tik5));
 			enqRepository.saveAndFlush(enq5);
+
+			for (int i = 0; i < 300; i++) {
+				Transaction randomTransaction = new Transaction();
+				randomTransaction.setAmount(Math.floor(Math.random() * 10000) / 100);
+				randomTransaction.setUser(osc);
+
+				long minEpochDay = 358 * 53 + 19;
+				long maxEpochDay = 358 * 54 + 83;
+				long range = maxEpochDay - minEpochDay + 1;
+				LocalDate randomDate = LocalDate.ofEpochDay((long) (Math.random() * range) + minEpochDay);
+				randomTransaction.setDate(randomDate);
+				randomTransaction.setTitle("Feast");
+				String[] categories = new String[] {"Food", "Transport", "Others", "Income"};
+				Random random = new Random();
+				randomTransaction.setCategory(categories[random.nextInt(categories.length)]);
+				transactionRepository.save(randomTransaction);
+			}
+
+			// List<Transaction> allTransactions = transactionRepository.findAll();
+			// Map<LocalDate, Double> mockTransactionsMap = allTransactions.stream().collect(
+			// 	Collectors.groupingBy(t -> t.getDate().withDayOfMonth(1),
+			// 		Collectors.summingDouble(Transaction::getAmount))
+			// );
+			// mockTransactionsMap.forEach(
+			// 	(month, total) -> {
+			// 		MonthlyTransaction monthlyTransaction = new MonthlyTransaction();
+			// 		monthlyTransaction.setAmount(total);
+			// 		monthlyTransaction.setDate(month);
+			// 		monthlyTransaction.setUserId(1);
+			// 		monthlyTransactionRepo.save(monthlyTransaction);
+			// 	}
+			// );
+			
 		};
 
 	}
@@ -140,4 +198,9 @@ public class BackendApplication {
 		return new BCryptPasswordEncoder();
 	}
 
+	@Scheduled(cron = "0 */5 * * * ?")
+    private void updateMonthlyTransaction(){
+        System.out.println("hello");
+        monthlyTransactionService.updateMonthlyTransactions();
+    }
 }

@@ -8,10 +8,10 @@ import com.personalfinance.backend.model.Transaction;
 public interface TransactionService {
 
     public List<Transaction> getAllTransactionsByUserId(int userId);
-    public List<Transaction> getAllTransactionsByUserIdAndMonth(int userId, Integer month);
+    public List<Transaction> getAllCurrentTransactionsByUserIdAndMonth(int userId, Integer month);
     public Transaction getTransactionById(long transactionId);
     public Transaction addTransaction(Transaction transaction);
     public Transaction updateTransaction(Transaction transaction);
     public boolean deleteTransactionById(long transactionId);
-    public Map<String, Float> getForecast(long userId);
+    public Map<String, Double> getSpendingForecast(long userId);
 }

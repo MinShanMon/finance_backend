@@ -3,12 +3,14 @@ package com.personalfinance.backend.service;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashMap;
 
 import javax.persistence.NoResultException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -32,8 +34,8 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<Transaction> getAllTransactionsByUserIdAndMonth(int userId, Integer month) {
-        return transactionRepo.findAllTransactionsByUserIdAndMonth(userId, month);
+    public List<Transaction> getAllCurrentTransactionsByUserIdAndMonth(int userId, Integer month) {
+        return transactionRepo.findAllCurrentTransactionsByUserIdAndMonth(userId, month, LocalDate.now().getYear());
     }
 
     @Override
@@ -65,15 +67,14 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Map<String, Float> getForecast(long userId) {
+    public Map<String, Double> getSpendingForecast(long userId) {
         final String API_URL = "http://localhost:5000/predict?userid=" + userId;
         RestTemplate restTemplate = new RestTemplate();
-        Map<String, Map<String, Float>> predictionsJson = restTemplate.getForObject(API_URL, Map.class);
-        Map<String, Float> predictions = new HashMap<>();
+        Map<String, Map<String, Double>> predictionsJson = restTemplate.getForObject(API_URL, Map.class);
+        Map<String, Double> predictions = new HashMap<>();
         predictionsJson.values().forEach( v -> {
             predictions.putAll(v);
          } );
          return predictions;
     }
-
 }
