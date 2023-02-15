@@ -9,4 +9,5 @@ public interface TicketService {
     Ticket updateTik(Ticket updateTik,Integer id);
     boolean sendEmail(Integer id) throws ResourceNotFoundException; 
     boolean sendReview(Integer id);
+    Ticket addTik();
 }

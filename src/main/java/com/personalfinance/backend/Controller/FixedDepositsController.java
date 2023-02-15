@@ -22,8 +22,6 @@ import com.personalfinance.backend.service.FixedDepositsService;
 @RestController
 @RequestMapping("/api")
 public class FixedDepositsController {
-    
-
 
     @Autowired
     FixedDepositsService fixedDepositsService;

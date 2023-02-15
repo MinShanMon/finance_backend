@@ -111,24 +111,24 @@ public class BackendApplication {
 			Ticket tik5 = tikRepository.saveAndFlush(new Ticket("GOOD",TicketStatusEnum.CLOSED,LocalDateTime.now().minusDays(18)));
 			tikRepository.saveAndFlush(tik5);
 
-			Enquiry enq1 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.PRODUCT, SalutationEnum.MS,"Adele Tan",
+			Enquiry enq1 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.PRODUCT, "Adele Tan",
 			"blissyetbloom@gmail.com", "12345678", "how to buy fet",LocalDateTime.now(), 4,"good",tik1));
 			enqRepository.saveAndFlush(enq1);
 
-			Enquiry enq2 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.FEEDBACK, SalutationEnum.MRS, "KIM Jean",
+			Enquiry enq2 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.FEEDBACK, "KIM Jean",
 			"blissyetbloom@gmail.com", "556789", "Good service", LocalDateTime.now().minusDays(3),5,"good",tik2));
 			enqRepository.saveAndFlush(enq2);
 			
 			
-			Enquiry enq3 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.ACCOUNT,SalutationEnum.MR, "JOHN Tan",
+			Enquiry enq3 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.ACCOUNT, "JOHN Tan",
 			"blissyetbloom@gmail.com", "000000", "how to register account",LocalDateTime.now().minusDays(8), 3,"good",tik3));
 			enqRepository.saveAndFlush(enq3);
 
-			Enquiry enq4 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.FEEDBACK, SalutationEnum.MRS, "KIM Jean",
+			Enquiry enq4 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.FEEDBACK, "KIM Jean",
 			"456@gmail.com", "556789", "bad service", LocalDateTime.now().minusDays(10),1,"good",tik4));
 			enqRepository.saveAndFlush(enq4);
 
-			Enquiry enq5 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.PRODUCT, SalutationEnum.MS,"Davie Hans",
+			Enquiry enq5 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.PRODUCT, "Davie Hans",
 			"000@gmail.com", "000000", "how to buy fet",LocalDateTime.now().minusDays(20).minusYears(2), 4,"good",tik5));
 			enqRepository.saveAndFlush(enq5);
 		};

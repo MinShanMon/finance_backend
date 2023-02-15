@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.personalfinance.backend.model.Enquiry;
 import com.personalfinance.backend.model.TicketStatusEnum;
 import com.personalfinance.backend.repository.EnquiryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 
 
 @Service
@@ -16,15 +18,17 @@ public class EnquiryServiceImpl implements EnquiryService {
     @Resource
     private EnquiryRepository enqRepository;
 
+    @Autowired
+    private TicketService ticketService;
+
     @Override
     public List<Enquiry> getAllEnquiry(){
-       return enqRepository.findAll();
+       return enqRepository.findAll(Sort.by(Sort.Direction.DESC,"id"));
     }
 
-        
     @Override
     public List<Enquiry> getOpenEnquiry(){
-        List<Enquiry> enquiries = enqRepository.findAll();
+        List<Enquiry> enquiries = enqRepository.findAll(Sort.by(Sort.Direction.DESC,"id"));
         List<Enquiry> openEnquiries = enquiries.stream().filter(u -> u.getTicket().getTikStatus().
         equals(TicketStatusEnum.OPEN)).collect(Collectors.toList());
 
@@ -33,7 +37,7 @@ public class EnquiryServiceImpl implements EnquiryService {
 
     @Override
     public List<Enquiry> getClosedEnquiry() {
-        List<Enquiry> enquiries = enqRepository.findAll();
+        List<Enquiry> enquiries = enqRepository.findAll(Sort.by(Sort.Direction.DESC,"id"));
         List<Enquiry> closedEnquiries = enquiries.stream().filter(u -> u.getTicket().getTikStatus().
         equals(TicketStatusEnum.CLOSED)).collect(Collectors.toList());
 
@@ -48,6 +52,12 @@ public class EnquiryServiceImpl implements EnquiryService {
         return enqRepository.getDetail(id);
         } 
         return enqRepository.getDetail(id);
+    }
+
+    @Override
+    public Enquiry submitEnquiry(Enquiry enquiry) {
+        enquiry.setTicket(ticketService.addTik());
+        return enqRepository.save(enquiry);
     }
 
 }

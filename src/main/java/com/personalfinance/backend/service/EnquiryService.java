@@ -9,6 +9,7 @@ public interface EnquiryService {
     List<Enquiry>  getOpenEnquiry(); 
     List<Enquiry>  getClosedEnquiry(); 
     Enquiry getOneEnquiry(Integer id);
+    Enquiry submitEnquiry(Enquiry enquiry);
     
 }
 

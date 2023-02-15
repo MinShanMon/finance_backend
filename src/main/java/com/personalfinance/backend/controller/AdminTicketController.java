@@ -44,6 +44,7 @@ public class AdminTicketController {
   
     @GetMapping("/enquiries/closed")
     public ResponseEntity <List<Enquiry>> viewClosedEnquiries(){
+        
         return new ResponseEntity <>(enqService.getClosedEnquiry(), HttpStatus.OK);
     }
 
