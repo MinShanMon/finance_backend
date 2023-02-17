@@ -91,7 +91,7 @@ public class BackendApplication {
 			FixedDeposits fd6 = fixedDepositsRepository.saveAndFlush(new FixedDeposits(3, 5000, 20000, 0.05, now, ocbc));
 			FixedDeposits fd7 = fixedDepositsRepository.saveAndFlush(new FixedDeposits(6, 5000, 20000, 0.1, now, ocbc));
 			FixedDeposits fd8 = fixedDepositsRepository.saveAndFlush(new FixedDeposits(12, 5000, 20000, 0.1, now, ocbc));
-			FixedDeposits fd9 = fixedDepositsRepository.saveAndFlush(new FixedDeposits(8, 10, 239, 0.02, now, ocbc));
+			
 			fixedDepositsRepository.saveAndFlush(fd1);
 			fixedDepositsRepository.saveAndFlush(fd2);
 			fixedDepositsRepository.saveAndFlush(fd3);
@@ -100,7 +100,7 @@ public class BackendApplication {
 			fixedDepositsRepository.saveAndFlush(fd6);
 			fixedDepositsRepository.saveAndFlush(fd7);
 			fixedDepositsRepository.saveAndFlush(fd8);
-			fixedDepositsRepository.saveAndFlush(fd9);
+		
 			
 
 			roleService.saveRole(new Role("Admin"));
