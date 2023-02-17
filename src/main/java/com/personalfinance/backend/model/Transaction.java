@@ -30,8 +30,8 @@ public class Transaction {
     @NotBlank
     private String title;
     private String description;
+    
     @NotNull
-
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate date;
 

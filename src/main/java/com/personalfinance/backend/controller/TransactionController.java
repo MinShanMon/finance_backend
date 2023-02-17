@@ -86,6 +86,7 @@ public class TransactionController {
             Transaction updatedTransaction = transactionSvc.updateTransaction(transaction);
             return new ResponseEntity<>(updatedTransaction, HttpStatus.CREATED);
         } catch (Exception e) {
+            System.out.println(e.toString());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
