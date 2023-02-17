@@ -183,10 +183,13 @@ public class BackendApplication {
 				long range = maxEpochDay - minEpochDay + 1;
 				LocalDate randomDate = LocalDate.ofEpochDay((long) (Math.random() * range) + minEpochDay);
 				randomTransaction.setDate(randomDate);
-				randomTransaction.setTitle("Feast");
+				
 				String[] categories = new String[] {"Food", "Transport", "Others", "Income"};
+				String[] titles = new String[] {"Lunch", "Bus/MRT", "Shopping", "Career"};
 				Random random = new Random();
-				randomTransaction.setCategory(categories[random.nextInt(categories.length)]);
+				int randInt = random.nextInt(categories.length);
+				randomTransaction.setCategory(categories[randInt]);
+				randomTransaction.setTitle(titles[randInt]);
 				transactionRepository.save(randomTransaction);
 			}
 
