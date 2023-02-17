@@ -26,7 +26,6 @@ import com.personalfinance.backend.model.FixedDeposits;
 import com.personalfinance.backend.model.MonthlyTransaction;
 import com.personalfinance.backend.model.RegisteredUsers;
 import com.personalfinance.backend.model.Role;
-import com.personalfinance.backend.model.SalutationEnum;
 import com.personalfinance.backend.model.StatusEnum;
 import com.personalfinance.backend.model.Ticket;
 import com.personalfinance.backend.model.TicketStatusEnum;
