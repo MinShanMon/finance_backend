@@ -144,7 +144,7 @@ public class BackendApplication {
 			tikRepository.saveAndFlush(tik5);
 
 			Ticket tik6 = tikRepository
-					.saveAndFlush(new Ticket("http://www.google.com", TicketStatusEnum.OPEN, LocalDateTime.now()));
+					.saveAndFlush(new Ticket("http://www.google.com", TicketStatusEnum.OPEN, null));
 			tikRepository.saveAndFlush(tik6);
 
 
