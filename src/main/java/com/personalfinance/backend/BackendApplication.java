@@ -116,12 +116,19 @@ public class BackendApplication {
 			userService.saveUser(osc);
 
 
+			List<Role> role1 = new ArrayList<>();
+			role1.add(user);
+			RegisteredUsers lexi = new RegisteredUsers("lexi", "ademailapi@gmail.com", "root", role2,
+					StatusEnum.ACTIVATED);
+			userService.saveUser(lexi);
+
+
 			Ticket tik1 = tikRepository
 					.saveAndFlush(new Ticket("GOOD", TicketStatusEnum.CLOSED, LocalDateTime.now().minusDays(18).plusMonths(3).minusYears(2)));
 			tikRepository.saveAndFlush(tik1);
 
 			Ticket tik2 = tikRepository
-					.saveAndFlush(new Ticket("GOOD", TicketStatusEnum.OPEN, null));
+					.saveAndFlush(new Ticket(null, TicketStatusEnum.OPEN, null));
 			tikRepository.saveAndFlush(tik2);
 
 			Ticket tik3 = tikRepository
@@ -133,11 +140,11 @@ public class BackendApplication {
 			tikRepository.saveAndFlush(tik4);
 
 			Ticket tik5 = tikRepository
-					.saveAndFlush(new Ticket("FIND THIS", TicketStatusEnum.OPEN, null));
+					.saveAndFlush(new Ticket(null, TicketStatusEnum.OPEN, null));
 			tikRepository.saveAndFlush(tik5);
 
 			Ticket tik6 = tikRepository
-					.saveAndFlush(new Ticket("http://www.google.com", TicketStatusEnum.OPEN, LocalDateTime.now()));
+					.saveAndFlush(new Ticket(null, TicketStatusEnum.OPEN, null));
 			tikRepository.saveAndFlush(tik6);
 
 
@@ -164,6 +171,7 @@ public class BackendApplication {
 			Enquiry enq6 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.PRODUCT, "lexi",
 			"ademailapi@gmail.com", "how to buy fet",LocalDateTime.now(), 0,null,tik6));
 			enqRepository.saveAndFlush(enq6);
+			
 			
 
 			for (int i = 0; i < 300; i++) {
