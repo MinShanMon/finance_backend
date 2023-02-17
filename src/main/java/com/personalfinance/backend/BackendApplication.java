@@ -199,6 +199,7 @@ public class BackendApplication {
 			// 		monthlyTransactionRepo.save(monthlyTransaction);
 			// 	}
 			// );
+			monthlyTransactionService.updateMonthlyTransactions();
 			
 		};
 
