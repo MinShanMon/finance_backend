@@ -78,22 +78,22 @@ public class BackendApplication {
 			MonthlyTransactionRepository monthlyTransactionRepo, MonthlyTransactionService monthlyTransactionService) {
 		return args -> {
 
-			Bank dbs = bankRepository.saveAndFlush(new Bank("dbs", "https://dbs.com"));
-			Bank uob = bankRepository.saveAndFlush(new Bank("uob", "https://uob.com"));
-			Bank ocbc = bankRepository.saveAndFlush(new Bank("ocbc", "https://ocbc.com"));
-			Bank posb = bankRepository.saveAndFlush(new Bank("posb", "https://posb.com"));
+			Bank dbs = bankRepository.saveAndFlush(new Bank("dbs", "https://www.dbs.com.sg/personal/rates-online/singapore-dollar-fixed-deposits.page"));
+			Bank uob = bankRepository.saveAndFlush(new Bank("uob", "https://www.uob.com.sg/personal/save/fixed-deposits/singapore-dollar-fixed-deposit.page"));
+			Bank ocbc = bankRepository.saveAndFlush(new Bank("ocbc", "https://www.ocbc.com/business-banking/sgd-fixed-deposit-interest-rates"));
+		
 
 			LocalDateTime now = LocalDateTime.now();
-			FixedDeposits fd1 = fixedDepositsRepository.saveAndFlush(new FixedDeposits(6, 10, 999, 0.02, now, dbs));
-			FixedDeposits fd2 = fixedDepositsRepository.saveAndFlush(new FixedDeposits(12, 10, 969, 0.02, now, dbs));
-			FixedDeposits fd3 = fixedDepositsRepository.saveAndFlush(new FixedDeposits(6, 10, 95599, 0.02, now, uob));
-			FixedDeposits fd4 = fixedDepositsRepository.saveAndFlush(new FixedDeposits(8, 10, 239, 0.02, now, ocbc));
-			FixedDeposits fd5 = fixedDepositsRepository.saveAndFlush(new FixedDeposits(12, 10, 2399, 0.02, now, posb));
-			FixedDeposits fd6 = fixedDepositsRepository.saveAndFlush(new FixedDeposits(6, 10, 9199, 0.02, now, dbs));
-			FixedDeposits fd7 = fixedDepositsRepository.saveAndFlush(new FixedDeposits(12, 10, 299, 0.02, now, dbs));
-			FixedDeposits fd8 = fixedDepositsRepository.saveAndFlush(new FixedDeposits(6, 10, 909, 0.02, now, uob));
+			FixedDeposits fd1 = fixedDepositsRepository.saveAndFlush(new FixedDeposits(3, 1000, 9990, 1.0, now, dbs));
+			FixedDeposits fd2 = fixedDepositsRepository.saveAndFlush(new FixedDeposits(6, 1000, 9999, 2.9, now, dbs));
+			FixedDeposits fd3 = fixedDepositsRepository.saveAndFlush(new FixedDeposits(12, 1000, 9999, 3.2, now, dbs));
+			FixedDeposits fd4 = fixedDepositsRepository.saveAndFlush(new FixedDeposits(6, 10000, 49999, 3.55, now, uob));
+			FixedDeposits fd5 = fixedDepositsRepository.saveAndFlush(new FixedDeposits(10, 50000, 999999, 3.85, now, uob));
+			FixedDeposits fd6 = fixedDepositsRepository.saveAndFlush(new FixedDeposits(3, 5000, 20000, 0.05, now, ocbc));
+			FixedDeposits fd7 = fixedDepositsRepository.saveAndFlush(new FixedDeposits(6, 5000, 20000, 0.1, now, ocbc));
+			FixedDeposits fd8 = fixedDepositsRepository.saveAndFlush(new FixedDeposits(12, 5000, 20000, 0.1, now, ocbc));
 			FixedDeposits fd9 = fixedDepositsRepository.saveAndFlush(new FixedDeposits(8, 10, 239, 0.02, now, ocbc));
-			FixedDeposits fd0 = fixedDepositsRepository.saveAndFlush(new FixedDeposits(12, 10, 499, 0.02, now, posb));
+			
 			fixedDepositsRepository.saveAndFlush(fd1);
 			fixedDepositsRepository.saveAndFlush(fd2);
 			fixedDepositsRepository.saveAndFlush(fd3);
@@ -103,7 +103,7 @@ public class BackendApplication {
 			fixedDepositsRepository.saveAndFlush(fd7);
 			fixedDepositsRepository.saveAndFlush(fd8);
 			fixedDepositsRepository.saveAndFlush(fd9);
-			fixedDepositsRepository.saveAndFlush(fd0);
+			
 
 			roleService.saveRole(new Role("Admin"));
 			roleService.saveRole(new Role("User"));
