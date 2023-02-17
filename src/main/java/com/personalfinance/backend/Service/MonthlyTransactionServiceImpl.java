@@ -32,7 +32,7 @@ public class MonthlyTransactionServiceImpl implements MonthlyTransactionService{
   public void updateMonthlyTransactions(){
     
     List<Transaction> allTransactions = transactionRepository.findAll();
-  
+    monthlyTransactionRepository.deleteAll();
     Map<Integer, Map<LocalDate, Double>> userTransactions = allTransactions.stream()
     .filter(t -> !t.getCategory().equalsIgnoreCase("income"))
     .collect(Collectors.groupingBy(transaction -> transaction.getUser().getId(),
