@@ -116,47 +116,56 @@ public class BackendApplication {
 					StatusEnum.ACTIVATED);
 			userService.saveUser(osc);
 
+
 			Ticket tik1 = tikRepository
-					.saveAndFlush(new Ticket("http://www.google.com", TicketStatusEnum.OPEN, LocalDateTime.now()));
+					.saveAndFlush(new Ticket("GOOD", TicketStatusEnum.CLOSED, LocalDateTime.now().minusDays(18).plusMonths(3).minusYears(2)));
 			tikRepository.saveAndFlush(tik1);
 
 			Ticket tik2 = tikRepository
-					.saveAndFlush(new Ticket("FIND THIS", TicketStatusEnum.OPEN, LocalDateTime.now().minusDays(3)));
+					.saveAndFlush(new Ticket("GOOD", TicketStatusEnum.OPEN, null));
 			tikRepository.saveAndFlush(tik2);
 
-			Ticket tik3 = tikRepository.saveAndFlush(
-					new Ticket("CALL THIS NUMBER", TicketStatusEnum.CLOSED, LocalDateTime.now().minusDays(8)));
+			Ticket tik3 = tikRepository
+					.saveAndFlush(new Ticket("GOOD", TicketStatusEnum.CLOSED, LocalDateTime.now().minusDays(10)));
 			tikRepository.saveAndFlush(tik3);
 
-			Ticket tik4 = tikRepository
-					.saveAndFlush(new Ticket("GOOD", TicketStatusEnum.CLOSED, LocalDateTime.now().minusDays(10)));
+			Ticket tik4 = tikRepository.saveAndFlush(
+					new Ticket("CALL THIS NUMBER", TicketStatusEnum.CLOSED, LocalDateTime.now().minusDays(8)));
 			tikRepository.saveAndFlush(tik4);
 
 			Ticket tik5 = tikRepository
-					.saveAndFlush(new Ticket("GOOD", TicketStatusEnum.CLOSED, LocalDateTime.now().minusDays(18)));
+					.saveAndFlush(new Ticket("FIND THIS", TicketStatusEnum.OPEN, null));
 			tikRepository.saveAndFlush(tik5);
 
+			Ticket tik6 = tikRepository
+					.saveAndFlush(new Ticket("http://www.google.com", TicketStatusEnum.OPEN, LocalDateTime.now()));
+			tikRepository.saveAndFlush(tik6);
 
-			Enquiry enq1 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.PRODUCT, "Adele Tan",
-			"blissyetbloom@gmail.com", "12345678", "how to buy fet",LocalDateTime.now(), 4,"good",tik1));
+
+			Enquiry enq1 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.PRODUCT, "Davie",
+			"davie@gmail.com", "how to buy FET?",LocalDateTime.now().minusDays(20).plusMonths(3).minusYears(2), 2,"Overall is ok",tik1));
 			enqRepository.saveAndFlush(enq1);
 
-			Enquiry enq2 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.FEEDBACK, "KIM Jean",
-			"blissyetbloom@gmail.com", "556789", "Good service", LocalDateTime.now().minusDays(3),5,"good",tik2));
+			Enquiry enq2 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.PRODUCT, "Mary",
+			"mary@gmail.com", "how to buy FET?",LocalDateTime.now().minusDays(3).minusMonths(1), 0,null,tik2));
 			enqRepository.saveAndFlush(enq2);
-			
-			
-			Enquiry enq3 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.ACCOUNT, "JOHN Tan",
-			"blissyetbloom@gmail.com", "000000", "how to register account",LocalDateTime.now().minusDays(8), 3,"good",tik3));
+
+			Enquiry enq3 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.FEEDBACK, "lexi",
+			"ademailapi@gmail.com", "bad service", LocalDateTime.now().minusDays(10),1,"Amazing app",tik3));
 			enqRepository.saveAndFlush(enq3);
 
-			Enquiry enq4 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.FEEDBACK, "KIM Jean",
-			"456@gmail.com", "556789", "bad service", LocalDateTime.now().minusDays(10),1,"good",tik4));
+			Enquiry enq4 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.ACCOUNT, "john",
+			"blissyetbloom@gmail.com", "how to register account?",LocalDateTime.now().minusDays(8), 3,"Not bad",tik4));
 			enqRepository.saveAndFlush(enq4);
 
-			Enquiry enq5 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.PRODUCT, "Davie Hans",
-			"000@gmail.com", "000000", "how to buy fet",LocalDateTime.now().minusDays(20).minusYears(2), 4,"good",tik5));
+			Enquiry enq5 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.FEEDBACK, "john",
+			"blissyetbloom@gmail.com", "How can I register an account?", LocalDateTime.now().minusDays(3),0,null,tik5));
 			enqRepository.saveAndFlush(enq5);
+
+			Enquiry enq6 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.PRODUCT, "lexi",
+			"ademailapi@gmail.com", "how to buy fet",LocalDateTime.now(), 0,null,tik6));
+			enqRepository.saveAndFlush(enq6);
+			
 
 			for (int i = 0; i < 300; i++) {
 				Transaction randomTransaction = new Transaction();

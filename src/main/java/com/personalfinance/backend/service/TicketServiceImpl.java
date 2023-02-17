@@ -34,7 +34,7 @@ public class TicketServiceImpl implements TicketService {
         return tikRepository.save(newTik);
     }
 
-    private final static String LOCAL_URL = "http://localhost/customer/review/";
+    private final static String LOCAL_URL = "http://localhost:8083/customer/review/";
     private final static String CLOUD_URL = "http://adteam3frontend-env.eba-9mzsispx.ap-northeast-1.elasticbeanstalk.com/";
  
     @Override
@@ -60,9 +60,9 @@ public class TicketServiceImpl implements TicketService {
         try{
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             Enquiry enq = enqRepository.findById(id).get();
-            String subject = "We have received your enquiry -- FinanceManagementApp";
+            String subject = "We have received your enquiry -- Finance Management Team";
             String content = "Dear " + enq.getName() + ",\n\n" 
-	        +enq.getTicket().getReply()+"\n\nBest regards,\nFinancial Management Team";
+	        +enq.getTicket().getReply()+"\n\nBest regards,\nFinance Management Team";
  
             // Setting up necessary details
             mailMessage.setFrom("ademailapi@gmail.com");
@@ -84,11 +84,11 @@ public class TicketServiceImpl implements TicketService {
         try{
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             Enquiry enq = enqRepository.findById(id).get();
-            String subject = "Please rate our service -- FinanceManagementApp";
+            String subject = "Please rate our service -- Finance Management Team";
             String content = "Dear " + enq.getName() + ",\n\n" 
             +"Please kindly review our service follows the link below:\n"
             + LOCAL_URL + enq.getId()+ "\nWe value your feedback sincerely. Thanks a lot!"+
-            "\n\nBest regards,\nFinancial Management Team";
+            "\n\nBest regards,\nFinance Management Team";
 
         // Setting up necessary details
             mailMessage.setFrom("ademailapi@gmail.com");
