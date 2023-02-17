@@ -116,6 +116,13 @@ public class BackendApplication {
 					StatusEnum.ACTIVATED);
 			userService.saveUser(osc);
 
+			List<Role> role1 = new ArrayList<>();
+			role1.add(user);
+			RegisteredUsers lexi = new RegisteredUsers("Lexi", "ademailapi@gmail.com", "root", role2,
+					StatusEnum.ACTIVATED);
+			userService.saveUser(lexi);
+
+
 			Ticket tik1 = tikRepository
 					.saveAndFlush(new Ticket("http://www.google.com", TicketStatusEnum.OPEN, LocalDateTime.now()));
 			tikRepository.saveAndFlush(tik1);
