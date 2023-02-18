@@ -35,7 +35,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     private final static String LOCAL_URL = "http://localhost:8083/customer/review/";
-    private final static String CLOUD_URL = "http://adteam3frontend-env.eba-9mzsispx.ap-northeast-1.elasticbeanstalk.com/";
+    private final static String CLOUD_URL = "http://adteam3frontend2-env.eba-ximtshrv.ap-northeast-1.elasticbeanstalk.com/customer/review";
  
     @Override
     public Ticket saveTik(Ticket tik) {
