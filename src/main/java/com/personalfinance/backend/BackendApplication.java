@@ -131,11 +131,11 @@ public class BackendApplication {
 			tikRepository.saveAndFlush(tik2);
 
 			Ticket tik3 = tikRepository
-					.saveAndFlush(new Ticket("GOOD", TicketStatusEnum.CLOSED, LocalDateTime.now().minusDays(10)));
+					.saveAndFlush(new Ticket("GOOD", TicketStatusEnum.CLOSED, LocalDateTime.now().minusDays(9).minusHours(8).minusMinutes(2)));
 			tikRepository.saveAndFlush(tik3);
 
 			Ticket tik4 = tikRepository.saveAndFlush(
-					new Ticket("CALL THIS NUMBER", TicketStatusEnum.CLOSED, LocalDateTime.now().minusDays(8)));
+					new Ticket("CALL THIS NUMBER", TicketStatusEnum.CLOSED, LocalDateTime.now().minusDays(7).minusHours(2)));
 			tikRepository.saveAndFlush(tik4);
 
 			Ticket tik5 = tikRepository
@@ -152,24 +152,25 @@ public class BackendApplication {
 			enqRepository.saveAndFlush(enq1);
 
 			Enquiry enq2 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.PRODUCT, "Mary",
-			"mary@gmail.com", "how to buy FET?",LocalDateTime.now().minusDays(3).minusMonths(1), 0,null,tik2));
+			"mary@gmail.com", "how to buy FET?",LocalDateTime.now().minusDays(3).minusMonths(1).minusHours(15).minusMinutes(2), 0,null,tik2));
 			enqRepository.saveAndFlush(enq2);
 
 			Enquiry enq3 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.FEEDBACK, "lexi",
-			"ademailapi@gmail.com", "bad service", LocalDateTime.now().minusDays(10),1,"Amazing app",tik3));
+			"ademailapi@gmail.com", "bad service", LocalDateTime.now().minusDays(10).minusMinutes(24),4,"Amazing app",tik3));
 			enqRepository.saveAndFlush(enq3);
 
 			Enquiry enq4 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.ACCOUNT, "john",
-			"blissyetbloom@gmail.com", "how to register account?",LocalDateTime.now().minusDays(8), 3,"Not bad",tik4));
+			"blissyetbloom@gmail.com", "how to register account?",LocalDateTime.now().minusDays(8).minusHours(11).minusMinutes(7), 3,"Not bad",tik4));
 			enqRepository.saveAndFlush(enq4);
 
 			Enquiry enq5 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.FEEDBACK, "john",
-			"blissyetbloom@gmail.com", "How can I register an account?", LocalDateTime.now().minusDays(3),0,null,tik5));
+			"blissyetbloom@gmail.com", "How can I register an account?", LocalDateTime.now().minusDays(3).plusMinutes(21),0,null,tik5));
 			enqRepository.saveAndFlush(enq5);
 
-			Enquiry enq6 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.PRODUCT, "lexi",
-			"ademailapi@gmail.com", "how to buy fet",LocalDateTime.now(), 0,null,tik6));
+			Enquiry enq6 = enqRepository.saveAndFlush(new Enquiry(EnquiryTypeEnum.PRODUCT, "Cara",
+			"cara_lim@gmail.com", "how to buy products",LocalDateTime.now().minusDays(2).minusHours(1).minusMinutes(10), 0,null,tik6));
 			enqRepository.saveAndFlush(enq6);
+			
 			
 			
 
