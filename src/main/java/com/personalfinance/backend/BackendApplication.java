@@ -177,7 +177,7 @@ public class BackendApplication {
 			for (int i = 0; i < 300; i++) {
 				Transaction randomTransaction = new Transaction();
 				randomTransaction.setAmount(Math.floor(Math.random() * 10000) / 100);
-				randomTransaction.setUser(osc);
+				randomTransaction.setUser(lexi);
 
 				long minEpochDay = 358 * 53 + 19;
 				long maxEpochDay = 358 * 54 + 83;
@@ -193,21 +193,6 @@ public class BackendApplication {
 				randomTransaction.setTitle(titles[randInt]);
 				transactionRepository.save(randomTransaction);
 			}
-
-			// List<Transaction> allTransactions = transactionRepository.findAll();
-			// Map<LocalDate, Double> mockTransactionsMap = allTransactions.stream().collect(
-			// 	Collectors.groupingBy(t -> t.getDate().withDayOfMonth(1),
-			// 		Collectors.summingDouble(Transaction::getAmount))
-			// );
-			// mockTransactionsMap.forEach(
-			// 	(month, total) -> {
-			// 		MonthlyTransaction monthlyTransaction = new MonthlyTransaction();
-			// 		monthlyTransaction.setAmount(total);
-			// 		monthlyTransaction.setDate(month);
-			// 		monthlyTransaction.setUserId(1);
-			// 		monthlyTransactionRepo.save(monthlyTransaction);
-			// 	}
-			// );
 
 			monthlyTransactionService.updateMonthlyTransactions();
 			
